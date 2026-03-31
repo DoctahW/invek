@@ -3,13 +3,6 @@
 
 import { useState, useEffect } from "react";
 
-type Crypto = {
-  name: string;
-  symbol: string;
-  value: string;
-  positive: boolean;
-};
-
 export default function Wallet() {
   useEffect(() => {
     // ainda não implementado
