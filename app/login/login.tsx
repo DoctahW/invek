@@ -2,7 +2,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
@@ -14,10 +14,13 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
-  const [loginEmail, setLoginEmail] = useState('');
-  const [loginPassword, setLoginPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
+  const [pageLoaded, setPageLoaded] = useState(false);
+
+   useEffect(() => {
+    setPageLoaded(true);
+  }, []);
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -26,7 +29,7 @@ export default function LoginPage() {
     }));
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
     setLoading(true);
     setError('');
@@ -56,12 +59,77 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen min-w-screen bg-[#121212] flex overflow-hidden">
+    <>{/* 👇 NOVO: CSS da animação de entrada */}
+      <style jsx>{`
+        @keyframes fadeOutLeft {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+}
+
+.fade-out-left {
+  animation: fadeOutLeft 0.8s ease-out forwards;
+}
+
+@keyframes fadeOutRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+}
+
+.fade-out-right {
+  animation: fadeOutRight 0.8s ease-out forwards;
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fade-in-left {
+  animation: fadeInLeft 0.8s ease-out forwards;
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fade-in-right {
+  animation: fadeInRight 0.8s ease-out forwards;
+}
+      `}</style>
+    <div className="min-h-screen min-w-screen bg-[#121212] flex overflow-hidden ">
+     
       {!isSignUp ? (
         // LOGIN FORM
+        
         <>
+          
           {/* Login Form - Left Side */}
-          <div className="flex-1 flex items-center justify-center lg:p-12">
+          <div className="flex-1 flex items-center justify-center lg:p-12 p-10 ">
             <div className="w-full max-w-[480px]">
               {/* Logo */}
               <div className="mb-12">
@@ -92,8 +160,8 @@ export default function LoginPage() {
                           id="email"
                           type="email"
                           placeholder="seu@email.com"
-                          value={loginEmail}
-                          onChange={(e) => setLoginEmail(e.target.value)}
+                          value={formData.email}
+                          onChange={handleChange}
                           className="flex-1 bg-transparent border-none outline-none text-white placeholder:text-[rgba(255,255,255,0.4)] text-[16px]"
                           required
                         />
@@ -124,8 +192,8 @@ export default function LoginPage() {
                           id="password"
                           type={showPassword ? "text" : "password"}
                           placeholder="••••••••"
-                          value={loginPassword}
-                          onChange={(e) => setLoginPassword(e.target.value)}
+                          value={formData.password}
+                          onChange={handleChange}
                           className="flex-1 bg-transparent border-none outline-none text-white placeholder:text-[rgba(255,255,255,0.4)] text-[16px]"
                           required
                         />
@@ -167,10 +235,11 @@ export default function LoginPage() {
                 </p>
               </div>
             </div>
+            
           </div>
 
           {/* Image - Right Side */}
-          <div className="hidden lg:flex flex-1 relative overflow-hidden">
+          <div className="hidden lg:flex flex-1 relative overflow-hidden fade-out">
             {/* Background Image */}
             <div className="absolute inset-0">
               <img
@@ -283,7 +352,6 @@ export default function LoginPage() {
                     <div className="backdrop-blur-[4px] bg-[rgba(0,0,0,0.4)] rounded-[16px] overflow-hidden">
                       <div className="absolute border-[0.6px] border-[rgba(255,255,255,0.8)] border-solid inset-0 pointer-events-none rounded-[16px]" />
                       <div className="flex items-center px-5 py-4">
-                        <div className="w-5 h-5 text-[rgba(255,255,255,0.6)] mr-3 flex-shrink-0" ></div>
                         <input
                           id="name"
                           type="text"
@@ -370,5 +438,5 @@ export default function LoginPage() {
         </>
       )}
     </div>
-  );
+  </>);
 }
