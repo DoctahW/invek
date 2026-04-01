@@ -1,0 +1,103 @@
+/* ── Dashboard page ───────────────────────────────────── */
+.page {
+    padding: 54px 66px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-height: calc(100vh - 116px);
+}
+
+/* ── Hero card (PortfolioSummaryCard) ─────────────────── */
+.heroCard {
+    padding: 20px 64px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 440px;
+}
+
+.heroLabel {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.heroValue {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+    color: #ffffff;
+}
+
+/* ── Chart ────────────────────────────────────────────── */
+.chartWrapper {
+    flex: 1;
+    min-height: 0;
+}
+
+.chartTooltip {
+    backdrop-filter: blur(3.5px);
+    background: linear-gradient(
+        120deg,
+        rgb(73, 73, 73) 0%,
+        rgba(73, 73, 73, 0.06) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    padding: 10px 14px;
+    min-width: 120px;
+}
+
+.chartTooltipLabel {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.6px;
+    margin-bottom: 2px;
+}
+
+.chartTooltipValue {
+    font-size: 20px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 1px;
+}
+
+.chartTooltipDate {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+}
+
+/* ── Bottom panels grid ───────────────────────────────── */
+.bottomGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.bottomPanel {
+    height: 440px;
+}
+
+/* 4. Media queries */
+@media (max-width: 768px) {
+    .page {
+        padding: 24px 16px;
+    }
+
+    .heroCard {
+        padding: 20px 24px;
+        height: auto;
+    }
+
+    .bottomGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .bottomPanel {
+        height: 300px;
+    }
+}
