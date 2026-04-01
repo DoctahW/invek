@@ -79,8 +79,8 @@ function AssetPill({ name, value, logo }: { name: string; value: string; logo: s
       ...glassCard,
     }}>
       <img src={logo} alt={name} style={{ width: 44, height: 44, borderRadius: 10, flexShrink: 0 }} />
-      <span style={{ flex: 1, color: 'white', fontSize: 20, fontFamily: 'Inter', fontWeight: 700 }}>{name}</span>
-      <span style={{ color: '#00A63E', fontSize: 20, fontFamily: 'Inter', fontWeight: 700, whiteSpace: 'nowrap' }}>{value}</span>
+      <span style={{ flex: 1, color: 'white', fontSize: 20, fontWeight: 700 }}>{name}</span>
+      <span style={{ color: '#00A63E', fontSize: 20, fontWeight: 700, whiteSpace: 'nowrap' }}>{value}</span>
     </div>
   );
 }
@@ -101,8 +101,8 @@ function InvestmentRow({ ticker, name, pct, positive, points }: {
       ...glassCard,
     }}>
       <div style={{ padding: '0 16px' }}>
-        <p style={{ color: 'white', fontSize: 20, fontFamily: 'Inter', fontWeight: 900, margin: 0 }}>{ticker}</p>
-        <p style={{ color: '#BDBDBD', fontSize: 14, fontFamily: 'Inter', fontWeight: 500, margin: '3px 0 0' }}>{name}</p>
+        <p style={{ color: 'white', fontSize: 20, fontWeight: 900, margin: 0 }}>{ticker}</p>
+        <p style={{ color: '#BDBDBD', fontSize: 14, fontWeight: 500, margin: '3px 0 0' }}>{name}</p>
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
@@ -118,7 +118,7 @@ function InvestmentRow({ ticker, name, pct, positive, points }: {
         height: '100%',
       }}>
         {positive ? <ArrowUp /> : <ArrowDown />}
-        <span style={{ color: positive ? '#2FBD04' : '#CF0003', fontSize: 18, fontFamily: 'Inter', fontWeight: 600, whiteSpace: 'nowrap' }}>
+        <span style={{ color: positive ? '#2FBD04' : '#CF0003', fontSize: 18, fontWeight: 600, whiteSpace: 'nowrap' }}>
           {pct}
         </span>
       </div>
@@ -130,7 +130,7 @@ export default function InvestmentsPage() {
   return (
     <div style={{ width: '100%', minHeight: '100vh', background: '#121212', padding: '28px 120px 60px', fontFamily: 'Inter, sans-serif', boxSizing: 'border-box' }}>
 
-      <h1 style={{ color: 'white', fontSize: 48, fontFamily: 'Inter', fontWeight: 700, margin: '0 0 20px' }}>
+      <h1 style={{ color: 'white', fontSize: 48, fontWeight: 700, margin: '0 0 20px' }}>
         Outros Investimentos
       </h1>
 
@@ -144,7 +144,7 @@ export default function InvestmentsPage() {
         ...glassCard,
       }}>
         <div style={{ paddingRight: 20 }}>
-          <p style={{ color: 'rgba(255,255,255,0.30)', fontSize: 24, fontFamily: 'Inter', fontWeight: 700, margin: '0 0 12px' }}>
+          <p style={{ color: 'rgba(255,255,255,0.30)', fontSize: 24, fontWeight: 700, margin: '0 0 12px' }}>
             Rendimento - Baixo risco
           </p>
           {LOW_RISK.map((a) => <AssetPill key={a.name} {...a} />)}
@@ -153,7 +153,7 @@ export default function InvestmentsPage() {
         <div style={{ width: '1px', background: 'rgba(255,255,255,0.20)', alignSelf: 'stretch' }} />
 
         <div style={{ paddingLeft: 20 }}>
-          <p style={{ color: 'rgba(255,255,255,0.30)', fontSize: 24, fontFamily: 'Inter', fontWeight: 700, margin: '0 0 12px' }}>
+          <p style={{ color: 'rgba(255,255,255,0.30)', fontSize: 24, fontWeight: 700, margin: '0 0 12px' }}>
             Rendimento - Alto risco
           </p>
           {HIGH_RISK.map((a) => <AssetPill key={a.name} {...a} />)}
@@ -165,12 +165,12 @@ export default function InvestmentsPage() {
         padding: '24px 20px 28px',
         ...glassCard,
       }}>
-        <h2 style={{ color: 'rgba(255,255,255,0.30)', fontSize: 48, fontFamily: 'Inter', fontWeight: 700, margin: '0 0 14px' }}>
+        <h2 style={{ color: 'rgba(255,255,255,0.30)', fontSize: 48, fontWeight: 700, margin: '0 0 14px' }}>
           Renda Fixas
         </h2>
         {RENDA_FIXA.map((inv) => <InvestmentRow key={inv.ticker} {...inv} />)}
 
-        <h2 style={{ color: 'rgba(255,255,255,0.30)', fontSize: 48, fontFamily: 'Inter', fontWeight: 700, margin: '24px 0 14px' }}>
+        <h2 style={{ color: 'rgba(255,255,255,0.30)', fontSize: 48, fontWeight: 700, margin: '24px 0 14px' }}>
           Renda Variavel
         </h2>
         {RENDA_VARIAVEL.map((inv) => <InvestmentRow key={inv.ticker} {...inv} />)}

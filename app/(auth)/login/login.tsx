@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from "react";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { GlassInput } from "@/app/components/glass/GlassInput";
-import { GlassButton } from '../components/glass/GlassButton';
+import { GlassButton } from '@/app/components/glass/GlassButton';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -26,7 +26,7 @@ export default function LoginPage() {
   const isFormEmpty = !formData.email || !formData.password;
   const toggleScreen = (toSignUp: boolean) => {
     if (isTransitioning) return;
-    
+
     setIsTransitioning(true);
     setTimeout(() => {
       setIsSignUp(toSignUp);
@@ -172,10 +172,10 @@ export default function LoginPage() {
       `}</style>
 
       <div className="h-screen w-screen bg-[#121212] flex overflow-x-hidden overflow-y-auto">
-        
+
         {/* CONTAINER PRINCIPAL */}
         <div className="flex w-full flex-col lg:flex-row h-full max-w-full">
-          
+
           {/* ========== LADO ESQUERDO ========== */}
           {/* FORMULÁRIO DE LOGIN - aparece no lado esquerdo */}
           <div className={`
@@ -284,7 +284,7 @@ export default function LoginPage() {
 
             <div className={`
               relative z-10 flex flex-col justify-center px-16 text-white
-      
+
             `}>
               <div className="max-w-xl">
                 <h2 className="font-black text-[42px] leading-tight mb-6">
@@ -321,7 +321,7 @@ export default function LoginPage() {
 
             <div className={`
               relative z-10 flex flex-col justify-center px-16 text-white
-              
+
               `}>
               <div className="max-w-xl">
                 <h2 className="font-black text-[42px] leading-tight mb-6">

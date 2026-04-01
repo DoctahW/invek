@@ -1,5 +1,4 @@
-import Login from './login/login'
-import Menu from './menu/page'
+import Login from './(auth)/login/login'
 
 export default function Home() {
   return (
