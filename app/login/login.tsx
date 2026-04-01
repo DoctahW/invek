@@ -169,20 +169,20 @@ export default function LoginPage() {
         }
       `}</style>
 
-      <div className="min-h-screen min-w-screen bg-[#121212] flex overflow-hidden">
+      <div className="h-screen w-screen bg-[#121212] flex overflow-x-hidden overflow-y-auto">
         
         {/* CONTAINER PRINCIPAL */}
-        <div className="flex w-full">
+        <div className="flex w-full flex-col lg:flex-row h-full max-w-full">
           
           {/* ========== LADO ESQUERDO ========== */}
           {/* FORMULÁRIO DE LOGIN - aparece no lado esquerdo */}
           <div className={`
-            flex-1 flex items-center justify-center lg:p-12 p-10 overflow-hidden
+            flex-1 flex items-center justify-center lg:p-12 p-10 overflow-hidden h-full max-w-full
             ${!isSignUp && !isTransitioning ? 'fade-in-left' : ''}
             ${isTransitioning && !isSignUp ? 'fade-out-left' : ''}
             ${isSignUp ? 'hidden' : ''}
           `}>
-            <div className="w-full max-w-[480px]">
+            <div className="w-full max-w-[480px] mx-auto">
               <div >
                 {/* Logo */}
                 <div className="mb-12">
@@ -294,7 +294,7 @@ export default function LoginPage() {
               flex-1 relative flex overflow-hidden
             ${!isSignUp && !isTransitioning ? 'fade-in-right' : ''}
             ${isTransitioning && !isSignUp ? 'fade-out-right' : ''}
-            ${isSignUp ? 'hidden' : ''}
+            ${isSignUp ? 'hidden ' : 'hidden lg:flex'}
           `}>
             <div className="absolute inset-0">
               <img
@@ -328,10 +328,10 @@ export default function LoginPage() {
           {/* ========== LADO ESQUERDO (CADASTRO) ========== */}
           {/* IMAGEM DO CADASTRO - aparece no lado esquerdo */}
           <div className={`
-            flex flex-1 relative overflow-hidden
+             flex-1 relative overflow-hidden
             ${isSignUp && !isTransitioning ? 'fade-in-left' : ''}
             ${isTransitioning && isSignUp ? 'fade-out-left' : ''}
-            ${!isSignUp ? 'hidden' : ''}
+            ${!isSignUp ? 'hidden' : 'hidden lg:flex'}
           `}>
             <div className="absolute inset-0">
               <img
