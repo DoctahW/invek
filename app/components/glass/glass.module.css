@@ -1,0 +1,60 @@
+.panel {
+    position: relative;
+    backdrop-filter: blur(3px);
+    background: rgba(0, 0, 0, 0.027);
+    border-radius: 36px;
+    box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.border {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    border-left: 0.5px solid rgba(255, 255, 255, 0.1);
+    border-right: 0.5px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.089);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Variantes para profundidade */
+.panel[data-depth="shallow"] {
+    backdrop-filter: blur(4px) saturate(150%);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.panel[data-depth="medium"] {
+    backdrop-filter: blur(12px) saturate(180%);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.panel[data-depth="deep"] {
+    backdrop-filter: blur(20px) saturate(200%);
+    background: rgba(255, 255, 255, 0.16);
+}
+
+.card {
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.card:focus-visible {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+    .panel {
+        border-radius: 20px;
+    }
+}
