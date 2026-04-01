@@ -7,6 +7,22 @@ const CRYPTOS = [
   {name: 'Ethereum', symbol: 'ETH', value: 'R$ 11.004,21', change: '0.64%', positive: true },
   {name: 'Solana', symbol: 'SOL', value: 'R$ 429,61', change: '-0.48%', positive: false},
 ]
+const NEWS = [
+        {
+        title: 'Bitcoin pode subir ou despencar no próximo trimestre',
+        description: 'Analistas apontam possível alta até US$84 mil ou queda até US$50 mil',
+        impact: 'neutral',
+        date: 'Ontem',
+        url: 'https://br.beincrypto.com/bitcoin-previsao-proximo-trimestre-84-mil-50-mil/'
+        },
+        {title: 'Mercado Livre encerra Mercado Coin',
+        description: 'Fintech decide encerrar sua criptomoeda lançada em 2022',
+        impact: 'negative',
+        date: '31/03/2026',
+        url: 'https://br.investing.com/news/cryptocurrency-news/fintech-do-mercado-livre-encerra-sua-criptomoeda-mercado-coin-1886531'
+        }
+]
+        
 
 function Positive(){  //svg do gráfico positivo
   return(
@@ -78,17 +94,19 @@ function ArrowDown() {
 
 export default function Wallet() {
   return (
-    <div className="min-h-screen bg-[#121212] text-white">
+    <div className="bg-[#121212] text-white">
 
-      <div className="px-10 py-10 flex flex-col items-center">
+      <div className="px-10 pt-6 pb-10 flex flex-col items-center gap-8">
+      
+      
 
         <div className="w-full max-w-[700px]">
-          <h2 className="text-[28px] font-bold mb-6">
+          <h2 className="text-[28px] font-bold mb-3">
             Carteira
           </h2>
         </div>
 
-        <GlassPanel className="w-full max-w-[700px] h-[410px] rounded-[20px] overflow-hidden">
+        <GlassPanel className="w-full max-w-[700px] h-[410px] rounded-[10px] overflow-hidden -mt-6">
 
           <div className="w-full h-full p-6 bg-[#0B0B0B] border border-white/10 flex flex-col">
             <h3 className="text-[27px] text-[#545454] font-semibold mb-4">
@@ -125,12 +143,59 @@ export default function Wallet() {
                     </span>
                   </div>
                   </div>
+                  
                 </GlassPanel>
-              ))}
+                ))}
             </div>
           </div>
         </GlassPanel>
-      </div>
-    </div>
-  );
-}
+
+{/* notícias */}    
+        <GlassPanel className="w-full max-w-[700px] h-[315px] rounded-[10px] overflow-hidden">
+
+          <div className="w-full h-full p-6 bg-[#0B0B0B] border border-white/10 flex flex-col">
+            <h3 className="text-[27px] text-[#545454] font-semibold mb-4">
+              Últimas notícias
+            </h3>
+            <div className="flex flex-col gap-4">
+            {NEWS.map((news, index) => (
+                <a 
+                  key={index}
+                  href={news.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                <GlassPanel
+                  key={index}
+                  depth="deep"
+                  className="p-4 rounded-xl !bg-[#121212] hover:!bg-[#1a1a1a] cursor-pointer"
+                >
+                  <div className="flex justify-between items-start">
+                    {/* texto */}
+                    <div className="flex-1">
+                      <p className="font-semibold text-[15px]">
+                        {news.title}
+                      </p>
+                      <p className="text-sm text-white/50">
+                        {news.description}
+                      </p>
+                    </div>
+                    <span className={`text-sm font-semibold ${
+                      news.impact === 'positive' ? 'text-[#2FBD04]': news.impact === 'negative' ? 'text-[#CF0003]' : 'text-[#BDBDBD]'
+                    }`}>
+                      {news.impact === 'positive' ? 'Alta': news.impact === 'negative'? 'Queda': 'Neutro'}
+                    </span>
+                  </div>
+                  <p className="text-xs text-white/30 mt-2">
+                    {news.date}
+                  </p>
+                </GlassPanel>
+                </a>
+              ))}
+            </div>
+            </div>
+          </GlassPanel>
+                      </div>
+                    </div>
+            );
+          }
