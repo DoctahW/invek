@@ -37,7 +37,6 @@ const glassCard: React.CSSProperties = {
   boxShadow: '0px 4px 6px rgba(0,0,0,0.10)',
 };
 
-// Seta positiva (verde)
 function ArrowUp() {
   return (
     <svg width="14" height="14" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
@@ -46,7 +45,6 @@ function ArrowUp() {
   );
 }
 
-// Seta negativa (vermelha)
 function ArrowDown() {
   return (
     <svg width="14" height="14" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
@@ -102,13 +100,11 @@ function InvestmentRow({ ticker, name, pct, positive, points }: {
       overflow: 'hidden',
       ...glassCard,
     }}>
-      {/* Info do ativo */}
       <div style={{ padding: '0 16px' }}>
-        <p style={{ color: 'white', fontSize: 24, fontFamily: 'Inter', fontWeight: 900, margin: 0 }}>{ticker}</p>
-        <p style={{ color: '#BDBDBD', fontSize: 16, fontFamily: 'Inter', fontWeight: 500, margin: '3px 0 0' }}>{name}</p>
+        <p style={{ color: 'white', fontSize: 20, fontFamily: 'Inter', fontWeight: 900, margin: 0 }}>{ticker}</p>
+        <p style={{ color: '#BDBDBD', fontSize: 14, fontFamily: 'Inter', fontWeight: 500, margin: '3px 0 0' }}>{name}</p>
       </div>
 
-      {/* Sparkline — centralizado */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
         <Sparkline points={points} positive={positive} />
       </div>
@@ -138,7 +134,6 @@ export default function InvestmentsPage() {
         Outros Investimentos
       </h1>
 
-      {/* Card baixo/alto risco */}
       <div style={{
         borderRadius: 36,
         padding: '20px 20px 24px',
@@ -165,7 +160,6 @@ export default function InvestmentsPage() {
         </div>
       </div>
 
-      {/* Card único — Renda Fixa + Renda Variável */}
       <div style={{
         borderRadius: 36,
         padding: '24px 20px 28px',
