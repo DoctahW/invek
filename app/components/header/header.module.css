@@ -1,0 +1,80 @@
+/* 1. Classe base */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 116px;
+  z-index: 50;
+  background: #121212;
+  display: flex;
+  align-items: center;
+  padding: 0 90px;
+  gap: 40px;
+}
+
+.divider {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Navigation */
+.nav {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 52px;
+  padding: 6px 20px;
+  border-radius: 999px;
+  border: 0.6px solid rgba(255, 255, 255, 0.8);
+  font-size: 16px;
+  font-weight: 400;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+  text-decoration: none;
+}
+
+.navItem:hover {
+  opacity: 0.85;
+}
+
+.navActive {
+  background-image: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgb(255, 255, 255) 100%
+  );
+  backdrop-filter: blur(3px);
+  color: #121212;
+}
+
+.navInactive {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(3px);
+  color: #e0e0e0;
+}
+
+/* Icon buttons (notification, user) */
+.iconButtons {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.iconButton {
+  width: 48px !important;
+  height: 48px !important;
+  padding: 0 !important;
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.6) !important;
+}
