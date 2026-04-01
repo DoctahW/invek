@@ -1,13 +1,14 @@
 //rota para acessar a página: /wallet
 'use client';
+import { GlassPanel } from '@/app/components/glass/GlassPanel';
 
 const CRYPTOS = [
   {name: 'Bitcoin', symbol: 'BTC', value: 'R$ 353.909,74', change: '-0.15%', positive: false },
-  {name: 'Ethereum', symbol: 'ETH', value: 'R$ 11.004,21', change: '+0.64%', positive: true },
+  {name: 'Ethereum', symbol: 'ETH', value: 'R$ 11.004,21', change: '0.64%', positive: true },
   {name: 'Solana', symbol: 'SOL', value: 'R$ 429,61', change: '-0.48%', positive: false},
 ]
 
-function Positive(){
+function Positive(){  //svg do gráfico positivo
   return(
     <svg
       width="120"
@@ -33,7 +34,7 @@ function Positive(){
   );
 }
 
-function Negative(){
+function Negative(){  //svg do gráfico negativo
   return(
     <svg
       width="120"
@@ -59,8 +60,24 @@ function Negative(){
   );
 }
 
+function ArrowUp() { 
+  return (
+    <svg width="14" height="14" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+      <path fillRule="evenodd" clipRule="evenodd" d="M15.7844 0C16.455 8.2506e-06 16.9982 0.544244 16.9982 1.21484V10.9287C16.998 11.5991 16.4646 12.1426 15.7941 12.1426C15.1236 12.1426 14.5707 11.5991 14.5705 10.9287V4.14648L2.07244 16.6445C1.59837 17.1184 0.829804 17.1183 0.355642 16.6445C-0.118547 16.1703 -0.118547 15.4009 0.355642 14.9268L12.8537 2.42871H6.07049C5.40001 2.42868 4.85679 1.88528 4.85662 1.21484C4.85663 0.544257 5.3999 1.27214e-05 6.07049 0H15.7844Z" fill="#2FBD04"/>
+    </svg>
+  );
+}
+
+function ArrowDown() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+      <path fillRule="evenodd" clipRule="evenodd" d="M17 15.7853C17 16.4559 16.4568 17.0002 15.7861 17.0002H6.07129C5.40069 17.0001 4.85741 16.4657 4.85742 15.7951C4.85747 15.1246 5.40071 14.5715 6.07129 14.5715L12.8555 14.5715L0.355469 2.07245C-0.11833 1.59828 -0.118439 0.829751 0.355469 0.355653C0.829695 -0.118551 1.59902 -0.118551 2.07324 0.355653L14.5713 12.8537V6.07147C14.5713 5.40085 15.1155 4.85662 15.7861 4.85663C16.4568 4.85665 17 5.40086 17 6.07147V15.7853Z" fill="#CF0003"/>
+    </svg>
+  );
+}
+
 export default function Wallet() {
-  return(
+  return (
     <div className="min-h-screen bg-[#121212] text-white">
 
       <div className="px-10 py-10 flex flex-col items-center">
@@ -71,38 +88,48 @@ export default function Wallet() {
           </h2>
         </div>
 
-        <div className="w-full max-w-[700px] bg-[#0A0A0A] p-6 rounded-[20px] h-[410px]">
-          <h3 className="text-[27px] text-[#545454] font-semibold mb-4">
-            Criptomoedas
-          </h3>
+        <GlassPanel className="w-full max-w-[700px] h-[410px] rounded-[20px] overflow-hidden">
 
-          <div className="space-y-6">
-            {CRYPTOS.map((crypto, index) => (
-              <div className="flex items-center p-4 rounded-xl bg-[#121212]">
+          <div className="w-full h-full p-6 bg-[#0B0B0B] border border-white/10 flex flex-col">
+            <h3 className="text-[27px] text-[#545454] font-semibold mb-4">
+              Criptomoedas
+            </h3>
+            <div className="flex-1 space-y-6">
+              {CRYPTOS.map((crypto, index) => (
+                <GlassPanel
+                  key={index}
+                  depth="deep"
+                  className="flex items-center justify-between p-4 rounded-xl !bg-[#121212] hover:!bg-[#1a1a1a]"
+                >
 
-                {/* lado esquerdo */}
-                <div className="flex-1">
-                  <p className="font-semibold">{crypto.symbol}</p>
-                  <p className="text-sm text-white/50">{crypto.name}</p>
-                </div>
-                {/* MEIO (GRÁFICO) */}
-                <div className="w-[200px] flex justify-center">
-                  {crypto.positive ? <Positive /> : <Negative />}
-                </div>
-                {/* lado direito */}
-                <div className="flex-1 text-right">
-                  <p className="font-semibold">{crypto.value}</p>
-                  <p className={`text-sm ${crypto.positive ? 'text-[#2FBD04]' : 'text-[#CF0003]'}`}>
-                    {crypto.change}
-                  </p>
-                </div>
+                  {/* lado esquerdo */}
+                  <div className="flex-1">
+                    <p className="font-semibold">{crypto.symbol}</p>
+                    <p className="text-sm text-white/50">{crypto.name}</p>
+                  </div>
 
-              </div>
-            ))}
+                  {/* gráfico */}
+                  <div className="w-[200px] flex justify-center">
+                    {crypto.positive ? <Positive /> : <Negative />}
+                  </div>
+
+                  {/* lado direito */}
+                  <div className="flex-1 text-right">
+                    <div className="flex-1 text-right"></div>
+
+
+                  <div className="flex items-center justify-end gap-1">
+                    {crypto.positive ? <ArrowUp /> : <ArrowDown />}
+                    <span className={`text-[18px] font-semibold whitespace-nowrap ${crypto.positive ? 'text-[#2FBD04]' : 'text-[#CF0003]'}`}>
+                      {crypto.change}
+                    </span>
+                  </div>
+                  </div>
+                </GlassPanel>
+              ))}
+            </div>
           </div>
-
-        </div>
-
+        </GlassPanel>
       </div>
     </div>
   );
