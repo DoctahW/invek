@@ -1,4 +1,6 @@
 'use client';
+import { GlassPanel } from '@/app/components/glass/GlassPanel';
+import styles from './investments.module.css';
 
 const LOW_RISK = [
   { name: 'CRI Dasa IPCA', value: '+ 10,58%', logo: '/logos/dasa.jpg' },
@@ -68,20 +70,11 @@ function Sparkline({ points, positive }: { points: number[]; positive: boolean }
 
 function AssetPill({ name, value, logo }: { name: string; value: string; logo: string }) {
   return (
-    <div style={{
-      display: 'flex',
-      alignItems: 'center',
-      gap: 10,
-      padding: '10px 14px',
-      height: 64,
-      borderRadius: 16,
-      marginBottom: 10,
-      ...glassCard,
-    }}>
+    <GlassPanel className={styles.pill}>
       <img src={logo} alt={name} style={{ width: 44, height: 44, borderRadius: 10, flexShrink: 0 }} />
       <span style={{ flex: 1, color: 'white', fontSize: 20, fontWeight: 700 }}>{name}</span>
       <span style={{ color: '#00A63E', fontSize: 20, fontWeight: 700, whiteSpace: 'nowrap' }}>{value}</span>
-    </div>
+    </GlassPanel>
   );
 }
 

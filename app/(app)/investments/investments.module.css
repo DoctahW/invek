@@ -1,0 +1,9 @@
+.pill {
+    display: flex;
+    align-items: center;
+    gap: 10;
+    padding: 10px 14px;
+    height: 64;
+    border-radius: 16;
+    margin-bottom: 10;
+}
