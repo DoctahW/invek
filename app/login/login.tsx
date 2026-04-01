@@ -4,6 +4,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from "react";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { GlassInput } from "@/app/components/glass/GlassInput";
 import { GlassButton } from '../components/glass/GlassButton';
 
 export default function LoginPage() {
@@ -198,64 +199,40 @@ export default function LoginPage() {
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="space-y-2">
-                    <label htmlFor="email" className="block text-[14px] font-medium text-[#e0e0e0]">
-                      Email
-                    </label>
-                    <div className="relative">
-                      <div className="backdrop-blur-[4px] bg-[rgba(0,0,0,0.4)] rounded-[16px] overflow-hidden">
-                        <div className="absolute border-[0.6px] border-[rgba(255,255,255,0.8)] border-solid inset-0 pointer-events-none rounded-[16px]" />
-                        <div className="flex items-center px-5 py-4">
-                          <Mail className="w-5 h-5 text-[rgba(255,255,255,0.6)] mr-3 flex-shrink-0" />
-                          <input
-                            id="email"
-                            name="email"
-                            type="email"
-                            placeholder="seu@email.com"
-                            value={formData.email}
-                            onChange={handleChange}
-                            className="flex-1 bg-transparent border-none outline-none text-white placeholder:text-[rgba(255,255,255,0.4)] text-[16px]"
-                            required
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <GlassInput
+                    id="email"
+                    name="email"
+                    type="email"
+                    label="Email"
+                    placeholder="seu@email.com"
+                    icon={<Mail size={20} />}
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
 
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <label htmlFor="password" className="block text-[14px] font-medium text-[#e0e0e0]">
-                        Senha
-                      </label>
+                      <span className="text-[14px] font-medium text-[#e0e0e0]">Senha</span>
                       <button type="button" className="text-[14px] text-white hover:opacity-80 transition-opacity">
                         Esqueceu a senha?
                       </button>
                     </div>
-                    <div className="relative">
-                      <div className="backdrop-blur-[4px] bg-[rgba(0,0,0,0.4)] rounded-[16px] overflow-hidden">
-                        <div className="absolute border-[0.6px] border-[rgba(255,255,255,0.8)] border-solid inset-0 pointer-events-none rounded-[16px]" />
-                        <div className="flex items-center px-5 py-4">
-                          <Lock className="w-5 h-5 text-[rgba(255,255,255,0.6)] mr-3 flex-shrink-0" />
-                          <input
-                            id="password"
-                            name="password"
-                            type={showPassword ? "text" : "password"}
-                            placeholder="••••••••"
-                            value={formData.password}
-                            onChange={handleChange}
-                            className="flex-1 bg-transparent border-none outline-none text-white placeholder:text-[rgba(255,255,255,0.4)] text-[16px]"
-                            required
-                          />
-                          <button
-                            type="button"
-                            onClick={() => setShowPassword(!showPassword)}
-                            className="text-[rgba(255,255,255,0.6)] hover:text-white transition-colors ml-3 flex-shrink-0"
-                          >
-                            {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                          </button>
-                        </div>
-                      </div>
-                    </div>
+                    <GlassInput
+                      id="password"
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="••••••••"
+                      icon={<Lock size={20} />}
+                      suffix={
+                        <button type="button" onClick={() => setShowPassword(!showPassword)}>
+                          {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                        </button>
+                      }
+                      value={formData.password}
+                      onChange={handleChange}
+                      required
+                    />
                   </div>
 
                   {error && (
@@ -385,76 +362,40 @@ export default function LoginPage() {
                 </div>
 
                 <form onSubmit={handleSignUp} className="space-y-6">
-                  <div className="space-y-2">
-                    <label htmlFor="name" className="block text-[14px] font-medium text-[#e0e0e0]">
-                      Nome completo
-                    </label>
-                    <div className="relative">
-                      <div className="backdrop-blur-[4px] bg-[rgba(0,0,0,0.4)] rounded-[16px] overflow-hidden">
-                        <div className="absolute border-[0.6px] border-[rgba(255,255,255,0.8)] border-solid inset-0 pointer-events-none rounded-[16px]" />
-                        <div className="flex items-center px-5 py-4">
-                          <input
-                            id="name"
-                            name="name"
-                            type="text"
-                            placeholder="Seu nome"
-                            value={signUpData.name}
-                            onChange={handleSignUpChange}
-                            className="flex-1 bg-transparent border-none outline-none text-white placeholder:text-[rgba(255,255,255,0.4)] text-[16px]"
-                            required
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <GlassInput
+                    id="name"
+                    name="name"
+                    type="text"
+                    label="Nome completo"
+                    placeholder="Seu nome"
+                    value={signUpData.name}
+                    onChange={handleSignUpChange}
+                    required
+                  />
 
-                  <div className="space-y-2">
-                    <label htmlFor="signup-email" className="block text-[14px] font-medium text-[#e0e0e0]">
-                      Email
-                    </label>
-                    <div className="relative">
-                      <div className="backdrop-blur-[4px] bg-[rgba(0,0,0,0.4)] rounded-[16px] overflow-hidden">
-                        <div className="absolute border-[0.6px] border-[rgba(255,255,255,0.8)] border-solid inset-0 pointer-events-none rounded-[16px]" />
-                        <div className="flex items-center px-5 py-4">
-                          <Mail className="w-5 h-5 text-[rgba(255,255,255,0.6)] mr-3 flex-shrink-0" />
-                          <input
-                            id="signup-email"
-                            name="email"
-                            type="email"
-                            placeholder="seu@email.com"
-                            value={signUpData.email}
-                            onChange={handleSignUpChange}
-                            className="flex-1 bg-transparent border-none outline-none text-white placeholder:text-[rgba(255,255,255,0.4)] text-[16px]"
-                            required
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <GlassInput
+                    id="signup-email"
+                    name="email"
+                    type="email"
+                    label="Email"
+                    placeholder="seu@email.com"
+                    icon={<Mail size={20} />}
+                    value={signUpData.email}
+                    onChange={handleSignUpChange}
+                    required
+                  />
 
-                  <div className="space-y-2">
-                    <label htmlFor="signup-password" className="block text-[14px] font-medium text-[#e0e0e0]">
-                      Senha
-                    </label>
-                    <div className="relative">
-                      <div className="backdrop-blur-[4px] bg-[rgba(0,0,0,0.4)] rounded-[16px] overflow-hidden">
-                        <div className="absolute border-[0.6px] border-[rgba(255,255,255,0.8)] border-solid inset-0 pointer-events-none rounded-[16px]" />
-                        <div className="flex items-center px-5 py-4">
-                          <Lock className="w-5 h-5 text-[rgba(255,255,255,0.6)] mr-3 flex-shrink-0" />
-                          <input
-                            id="signup-password"
-                            name="password"
-                            type="password"
-                            placeholder="••••••••"
-                            value={signUpData.password}
-                            onChange={handleSignUpChange}
-                            className="flex-1 bg-transparent border-none outline-none text-white placeholder:text-[rgba(255,255,255,0.4)] text-[16px]"
-                            required
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <GlassInput
+                    id="signup-password"
+                    name="password"
+                    type="password"
+                    label="Senha"
+                    placeholder="••••••••"
+                    icon={<Lock size={20} />}
+                    value={signUpData.password}
+                    onChange={handleSignUpChange}
+                    required
+                  />
 
                   <GlassButton
                       type="submit"
