@@ -37,7 +37,7 @@ export default function MenuPage(){
     };
 
     return (
-        <div className="min-h-screen bg-[#121212] text-white p-8">
+        <div className="min-h-screen bg-[#121212] text-white p-8 w-full">
             <h1 className="text-3xl font-black mb-8">Meus Investimentos</h1>
 
             {/* Seção de Adicionar (Placeholders) */}
