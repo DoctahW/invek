@@ -4,6 +4,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from "react";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { GlassButton } from '../components/glass/GlassButton';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -263,17 +264,15 @@ export default function LoginPage() {
                     </div>
                   )}
 
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full h-[52px] backdrop-blur-[3px] rounded-[999px] relative overflow-hidden mt-8 disabled:opacity-50 disabled:cursor-not-allowed"
-                    style={{ backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.6) 0%, rgb(255, 255, 255) 100%)" }}
-                  >
-                    <div className="absolute border border-[rgba(255,255,255,0.8)] border-solid inset-0 pointer-events-none rounded-[999px]" />
-                    <span className="font-normal text-[#121212] text-[16px]">
+                  <GlassButton
+                      type="submit"
+                      variant="primary"
+                      size="md"
+                      loading={loading}
+                      className="w-full"
+                    >
                       {loading ? 'Entrando...' : 'Entrar'}
-                    </span>
-                  </button>
+                    </GlassButton>
                 </form>
 
                 <div className="text-center mt-8">
@@ -456,17 +455,15 @@ export default function LoginPage() {
                     </div>
                   </div>
 
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full h-[52px] backdrop-blur-[3px] rounded-[999px] relative overflow-hidden mt-8 disabled:opacity-50 disabled:cursor-not-allowed"
-                    style={{ backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.6) 0%, rgb(255, 255, 255) 100%)" }}
-                  >
-                    <div className="absolute border border-[rgba(255,255,255,0.8)] border-solid inset-0 pointer-events-none rounded-[999px]" />
-                    <span className="font-normal text-[#121212] text-[16px]">
+                  <GlassButton
+                      type="submit"
+                      variant="primary"
+                      size="md"
+                      loading={loading}
+                      className="w-full"
+                    >
                       {loading ? 'Criando conta...' : 'Criar conta'}
-                    </span>
-                  </button>
+                    </GlassButton>
                 </form>
 
                 <div className="text-center mt-8">
