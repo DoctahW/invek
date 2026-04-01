@@ -22,7 +22,7 @@ export default function LoginPage() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
-
+  const isFormEmpty = !formData.email || !formData.password;
   const toggleScreen = (toSignUp: boolean) => {
     if (isTransitioning) return;
     
@@ -269,6 +269,7 @@ export default function LoginPage() {
                       variant="primary"
                       size="md"
                       loading={loading}
+                      disabled={isFormEmpty}
                       className="w-full"
                     >
                       {loading ? 'Entrando...' : 'Entrar'}
@@ -460,6 +461,7 @@ export default function LoginPage() {
                       variant="primary"
                       size="md"
                       loading={loading}
+                      disabled={isFormEmpty}
                       className="w-full"
                     >
                       {loading ? 'Criando conta...' : 'Criar conta'}
