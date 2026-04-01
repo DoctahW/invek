@@ -1,4 +1,4 @@
-//rota para acessar a página: /wallet/
+//rota para acessar a página: /wallet
 'use client';
 
 import { useState, useEffect } from "react";
