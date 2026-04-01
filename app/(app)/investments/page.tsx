@@ -23,21 +23,10 @@ const RENDA_FIXA = [
 ];
 
 const RENDA_VARIAVEL = [
-  { ticker: 'BPAC11', name: 'BANCO BTG PACTUAL', pct: '0.51%', positive: true, points: [4,6,5,7,6,8,7,9,8,10,9,11,10,12,11] },
+  { ticker: 'BPAC11', name: 'BANCO BTG PAC', pct: '0.51%', positive: true, points: [4,6,5,7,6,8,7,9,8,10,9,11,10,12,11] },
   { ticker: 'AZUL4', name: 'Azul Linhas Aéreas', pct: '−83,9%', positive: false, points: [12,11,10,9,8,7,6,5,4,3,2,2,1,1,1] },
   { ticker: 'IFCM3', name: 'Infracommerce', pct: '−54,9%', positive: false, points: [10,9,8,9,7,6,5,6,4,5,3,4,2,3,2] },
 ];
-
-const glassCard: React.CSSProperties = {
-  backgroundColor: 'rgba(255,255,255,0.03)',
-  backdropFilter: 'blur(8px)',
-  WebkitBackdropFilter: 'blur(8px)',
-  borderTop: '1px solid rgba(255,255,255,0.40)',
-  borderBottom: '1px solid rgba(255,255,255,0.30)',
-  borderLeft: '0.7px solid rgba(255,255,255,0.15)',
-  borderRight: '0.7px solid rgba(255,255,255,0.15)',
-  boxShadow: '0px 4px 6px rgba(0,0,0,0.10)',
-};
 
 function ArrowUp() {
   return (
@@ -82,40 +71,23 @@ function InvestmentRow({ ticker, name, pct, positive, points }: {
   ticker: string; name: string; pct: string; positive: boolean; points: number[];
 }) {
   return (
-    <div style={{
-      display: 'grid',
-      gridTemplateColumns: '180px 1fr 110px',
-      alignItems: 'center',
-      gap: 0,
-      height: 80,
-      borderRadius: 20,
-      marginBottom: 10,
-      overflow: 'hidden',
-      ...glassCard,
-    }}>
+    <GlassPanel className={styles.row}>
       <div style={{ padding: '0 16px' }}>
         <p style={{ color: 'white', fontSize: 20, fontWeight: 900, margin: 0 }}>{ticker}</p>
         <p style={{ color: '#BDBDBD', fontSize: 14, fontWeight: 500, margin: '3px 0 0' }}>{name}</p>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Sparkline points={points} positive={positive} />
       </div>
 
-      {/* Percentual com seta — bloco separado à direita */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 5,
-        height: '100%',
-      }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
         {positive ? <ArrowUp /> : <ArrowDown />}
         <span style={{ color: positive ? '#2FBD04' : '#CF0003', fontSize: 18, fontWeight: 600, whiteSpace: 'nowrap' }}>
           {pct}
         </span>
       </div>
-    </div>
+    </GlassPanel>
   );
 }
 
@@ -127,15 +99,7 @@ export default function InvestmentsPage() {
         Outros Investimentos
       </h1>
 
-      <div style={{
-        borderRadius: 36,
-        padding: '20px 20px 24px',
-        marginBottom: 20,
-        display: 'grid',
-        gridTemplateColumns: '1fr 1px 1fr',
-        gap: 0,
-        ...glassCard,
-      }}>
+      <GlassPanel className={styles.page}>
         <div style={{ paddingRight: 20 }}>
           <p style={{ color: 'rgba(255,255,255,0.30)', fontSize: 24, fontWeight: 700, margin: '0 0 12px' }}>
             Rendimento - Baixo risco
@@ -151,13 +115,9 @@ export default function InvestmentsPage() {
           </p>
           {HIGH_RISK.map((a) => <AssetPill key={a.name} {...a} />)}
         </div>
-      </div>
+      </GlassPanel>
 
-      <div style={{
-        borderRadius: 36,
-        padding: '24px 20px 28px',
-        ...glassCard,
-      }}>
+      <GlassPanel className={styles.fixva}>
         <h2 style={{ color: 'rgba(255,255,255,0.30)', fontSize: 48, fontWeight: 700, margin: '0 0 14px' }}>
           Renda Fixas
         </h2>
@@ -167,7 +127,7 @@ export default function InvestmentsPage() {
           Renda Variavel
         </h2>
         {RENDA_VARIAVEL.map((inv) => <InvestmentRow key={inv.ticker} {...inv} />)}
-      </div>
+      </GlassPanel>
 
     </div>
   );
