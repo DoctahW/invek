@@ -22,10 +22,33 @@ export function SignUpForm({ onToggleToLogin }: SignUpFormProps) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const getErrorMessage = (code?: string, fallback?: string) => {
+    switch (code) {
+      case "USER_ALREADY_EXISTS":
+        return "Este email já está cadastrado";
+      case "INVALID_EMAIL":
+        return "Email inválido";
+      case "PASSWORD_TOO_SHORT":
+        return "A senha deve ter pelo menos 8 caracteres";
+      case "PASSWORD_TOO_LONG":
+        return "A senha é muito longa";
+      case "FAILED_TO_CREATE_USER":
+        return "Erro ao criar conta. Tente novamente";
+      default:
+        return fallback || "Erro ao criar conta. Tente novamente";
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
+
+    if (formData.password.length < 8) {
+      setError("A senha deve ter pelo menos 8 caracteres");
+      return;
+    }
+
+    setLoading(true);
 
     const { error } = await authClient.signUp.email({
       name: formData.name,
@@ -34,7 +57,7 @@ export function SignUpForm({ onToggleToLogin }: SignUpFormProps) {
     });
 
     if (error) {
-      setError(error.message || "Erro ao criar conta");
+      setError(getErrorMessage(error.code, error.message));
     } else {
       onToggleToLogin();
     }
