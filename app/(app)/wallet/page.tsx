@@ -153,16 +153,20 @@ function ArrowDown() {
 function Sparkline({
   points,
   positive,
+  width = 160,
+  height = 48,
 }: {
   points: number[];
   positive: boolean;
+  width?: number;
+  height?: number;
 }) {
   const data = points.map((v, i) => ({ i, v }));
   const color = positive ? "#2FBD04" : "#CF0003";
   const gradId = positive ? "sg-pos" : "sg-neg";
 
   return (
-    <div style={{ width: 160, height: 48, flexShrink: 0 }}>
+    <div style={{ width, height, flexShrink: 0 }}>
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={data}
@@ -300,8 +304,28 @@ function InvestmentRow({
       depth="deep"
       className="rounded-xl p-2 !bg-[#121212] hover:!bg-[#1a1a1a] transition-colors"
     >
+      {/* Mobile layout */}
+      <div className="flex md:hidden items-center gap-3 px-3 h-16 w-full">
+        <div className="flex-1 min-w-0">
+          <p className="font-bold text-[15px] text-white">{ticker}</p>
+          <p className="text-[11px] text-white/50 truncate">{name}</p>
+        </div>
+        <div className="text-right shrink-0">
+          <p className="text-[13px] font-semibold text-white">{value}</p>
+          <div className="flex items-center gap-0.5 justify-end">
+            {positive ? <ArrowUp /> : <ArrowDown />}
+            <span
+              className={`text-[12px] font-semibold whitespace-nowrap ${positive ? "text-[#2FBD04]" : "text-[#CF0003]"}`}
+            >
+              {pct}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop layout */}
       <div
-        className="grid items-center gap-4 px-4 h-17 w-full"
+        className="hidden md:grid items-center gap-4 px-4 h-17 w-full"
         style={{ gridTemplateColumns: "140px 1fr auto auto" }}
       >
         <div>

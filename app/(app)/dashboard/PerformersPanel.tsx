@@ -54,7 +54,9 @@ function PerformerRow({ ticker, name, pct, positive, points, index, variant }: {
         <span className={styles.performerTicker}>{ticker}</span>
         <span className={styles.performerName}>{name}</span>
       </div>
-      <Sparkline points={points} positive={positive} id={gradId} />
+      <div className={styles.performerSparkline}>
+        <Sparkline points={points} positive={positive} id={gradId} />
+      </div>
       <div className={styles.performerPct}>
         {positive ? <ArrowUp /> : <ArrowDown />}
         <span style={{ color: positive ? '#2FBD04' : '#CF0003' }}>{pct}</span>

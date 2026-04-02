@@ -188,4 +188,12 @@
     .bottomPanel {
         height: 300px;
     }
+
+    .performerRow {
+        grid-template-columns: 32px 1fr 80px;
+    }
+
+    .performerSparkline {
+        display: none;
+    }
 }
