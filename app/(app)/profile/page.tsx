@@ -1,4 +1,7 @@
+import type { Metadata } from "next";
 import { db } from "@/db";
+
+export const metadata: Metadata = { title: "Perfil" };
 import { user } from "@/db/auth-schema";
 import ProfileClient from "./ProfileClient";
 import { redirect } from "next/navigation";

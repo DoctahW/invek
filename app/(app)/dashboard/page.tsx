@@ -1,4 +1,7 @@
+import type { Metadata } from "next";
 import { getInvestments, getChartData, getPortfolioSummary } from '@/app/data/portfolio-db';
+
+export const metadata: Metadata = { title: "Dashboard" };
 import { PortfolioSummaryCard } from './PortfolioSummaryCard';
 import { BestPerformersPanel, WorstPerformersPanel } from './PerformersPanel';
 import styles from './dashboard.module.css';
