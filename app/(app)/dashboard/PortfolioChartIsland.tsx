@@ -11,9 +11,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import styles from './dashboard.module.css';
-
-import { PORTFOLIO_CHART_DATA } from '@/app/data/portfolio';
-const chartData = PORTFOLIO_CHART_DATA;
+import type { ChartPoint } from '@/app/data/portfolio-db';
 
 interface TooltipPayload {
   value?: number;
@@ -37,7 +35,24 @@ function formatYAxis(value: number) {
   return `${(value / 1000).toFixed(1)}K`;
 }
 
-export default function PortfolioChartIsland() {
+export default function PortfolioChartIsland({
+  chartData,
+  investedValue,
+}: {
+  chartData: ChartPoint[];
+  investedValue: number;
+}) {
+  const values = chartData.map((d) => d.value);
+  const minVal = Math.min(...values);
+  const maxVal = Math.max(...values);
+  const padding = (maxVal - minVal) * 0.15 || 500;
+  const domainMin = Math.floor((minVal - padding) / 1000) * 1000;
+  const domainMax = Math.ceil((maxVal + padding) / 1000) * 1000;
+
+  const step = Math.ceil((domainMax - domainMin) / 5 / 1000) * 1000;
+  const ticks: number[] = [];
+  for (let v = domainMin; v <= domainMax; v += step) ticks.push(v);
+
   return (
     <div className={styles.chartWrapper}>
       <ResponsiveContainer width="100%" height={270}>
@@ -64,8 +79,8 @@ export default function PortfolioChartIsland() {
           />
 
           <YAxis
-            domain={[29000, 34000]}
-            ticks={[29000, 30000, 31000, 32000, 33000, 34000]}
+            domain={[domainMin, domainMax]}
+            ticks={ticks}
             tickFormatter={formatYAxis}
             tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 12, fontWeight: 500, letterSpacing: '0.6px' }}
             tickLine={false}
@@ -73,11 +88,13 @@ export default function PortfolioChartIsland() {
             width={36}
           />
 
-          <ReferenceLine
-            y={29830}
-            stroke="rgba(255,56,66,0.5)"
-            strokeWidth={1}
-          />
+          {investedValue > 0 && (
+            <ReferenceLine
+              y={investedValue}
+              stroke="rgba(255,56,66,0.5)"
+              strokeWidth={1}
+            />
+          )}
 
           <Tooltip
             content={<CustomTooltip />}

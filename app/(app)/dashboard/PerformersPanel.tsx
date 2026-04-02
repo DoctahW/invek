@@ -1,7 +1,7 @@
 'use client';
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
 import { GlassPanel } from '@/app/components/glass/GlassPanel';
-import { PORTFOLIO_ITEMS } from '@/app/data/portfolio';
+import type { InvestmentRow } from '@/app/data/portfolio-db';
 import styles from './dashboard.module.css';
 
 function ArrowUp() {
@@ -41,8 +41,14 @@ function Sparkline({ points, positive, id }: { points: number[]; positive: boole
   );
 }
 
-function PerformerRow({ ticker, name, pct, positive, points, index, variant }: {
-  ticker: string; name: string; pct: string; positive: boolean; points: number[]; index: number; variant: 'best' | 'worst';
+function formatPct(pctNum: number): string {
+  const sign = pctNum >= 0 ? '+' : '−';
+  const abs = Math.abs(pctNum).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return `${sign}${abs}%`;
+}
+
+function PerformerRow({ ticker, name, pctNum, positive, points, index, variant }: {
+  ticker: string; name: string; pctNum: number; positive: boolean; points: number[]; index: number; variant: 'best' | 'worst';
 }) {
   const gradId = `perf-${variant}-${index}`;
   return (
@@ -59,23 +65,20 @@ function PerformerRow({ ticker, name, pct, positive, points, index, variant }: {
       </div>
       <div className={styles.performerPct}>
         {positive ? <ArrowUp /> : <ArrowDown />}
-        <span style={{ color: positive ? '#2FBD04' : '#CF0003' }}>{pct}</span>
+        <span style={{ color: positive ? '#2FBD04' : '#CF0003' }}>{formatPct(pctNum)}</span>
       </div>
     </div>
   );
 }
 
-const sorted = [...PORTFOLIO_ITEMS].sort((a, b) => b.pctNum - a.pctNum);
-const TOP = sorted.slice(0, 4);
-const WORST = [...sorted].reverse().slice(0, 4);
-
-export function BestPerformersPanel() {
+export function BestPerformersPanel({ items }: { items: InvestmentRow[] }) {
+  const top = [...items].sort((a, b) => b.pctNum - a.pctNum).slice(0, 4);
   return (
     <GlassPanel className={styles.bottomPanel}>
       <div className={styles.performerPanel}>
         <p className={styles.performerLabel}>Melhores rendimentos</p>
         <div className={styles.performerList}>
-          {TOP.map((item, i) => (
+          {top.map((item, i) => (
             <PerformerRow key={item.ticker} {...item} index={i} variant="best" />
           ))}
         </div>
@@ -84,13 +87,14 @@ export function BestPerformersPanel() {
   );
 }
 
-export function WorstPerformersPanel() {
+export function WorstPerformersPanel({ items }: { items: InvestmentRow[] }) {
+  const worst = [...items].sort((a, b) => a.pctNum - b.pctNum).slice(0, 4);
   return (
     <GlassPanel className={styles.bottomPanel}>
       <div className={styles.performerPanel}>
         <p className={styles.performerLabel}>Piores rendimentos</p>
         <div className={styles.performerList}>
-          {WORST.map((item, i) => (
+          {worst.map((item, i) => (
             <PerformerRow key={item.ticker} {...item} index={i} variant="worst" />
           ))}
         </div>
