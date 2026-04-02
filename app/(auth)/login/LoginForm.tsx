@@ -25,10 +25,27 @@ export function LoginForm({ onToggleToSignUp }: LoginFormProps) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const getErrorMessage = (code?: string) => {
+    switch (code) {
+      case "INVALID_EMAIL_OR_PASSWORD":
+        return "Email ou senha incorretos";
+      case "EMAIL_NOT_VERIFIED":
+        return "Confirme seu email antes de entrar";
+      case "USER_NOT_FOUND":
+        return "Nenhuma conta encontrada com este email";
+      case "TOO_MANY_REQUESTS":
+        return "Muitas tentativas. Aguarde alguns minutos e tente novamente";
+      case "ACCOUNT_NOT_FOUND":
+        return "Nenhuma conta encontrada com este email";
+      default:
+        return "Erro ao fazer login. Tente novamente";
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
+    setLoading(true);
 
     const { error } = await authClient.signIn.email({
       email: formData.email,
@@ -36,7 +53,7 @@ export function LoginForm({ onToggleToSignUp }: LoginFormProps) {
     });
 
     if (error) {
-      setError(error.message || "Erro ao fazer login");
+      setError(getErrorMessage(error.code));
     } else {
       router.push("/dashboard");
       router.refresh();
