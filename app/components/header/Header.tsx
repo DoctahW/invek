@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Bell, User } from "lucide-react";
 import { GlassButton } from "@/app/components/glass/GlassButton";
 import { MobileNav } from "./MobileNav";
@@ -14,6 +15,8 @@ const NAV_ITEMS = [
 
 export function AppHeader() {
   const pathname = usePathname();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   return (
     <>
@@ -39,20 +42,22 @@ export function AppHeader() {
 
         <div className={styles.iconButtons}>
           <GlassButton
-            variant="ghost"
+            href="/notifications"
+            variant={mounted && pathname === "/notifications" ? "primary" : "ghost"}
             size="sm"
             className={styles.iconButton}
             aria-label="Notificações"
           >
-            <Bell size={20} />
+            <Bell size={20} color={mounted && pathname === "/notifications" ? "#000" : "currentColor"} />
           </GlassButton>
           <GlassButton
-            variant="ghost"
+            href="/profile"
+            variant={mounted && pathname === "/profile" ? "primary" : "ghost"}
             size="sm"
             className={styles.iconButton}
             aria-label="Perfil"
           >
-            <User size={20} />
+            <User size={20} color={mounted && pathname === "/profile" ? "#000" : "currentColor"} />
           </GlassButton>
         </div>
 
