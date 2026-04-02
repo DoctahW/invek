@@ -79,8 +79,8 @@ function AssetPill({ name, value, logo }: { name: string; value: string; logo: s
   return (
     <GlassPanel className={styles.pill}>
       <img src={logo} alt={name} style={{ width: 44, height: 44, borderRadius: 10, flexShrink: 0 }} />
-      <span style={{ flex: 1, color: 'white', fontSize: 20, fontWeight: 700 }}>{name}</span>
-      <span style={{ color: '#00A63E', fontSize: 20, fontWeight: 700, whiteSpace: 'nowrap' }}>{value}</span>
+      <span className={styles.pillName}>{name}</span>
+      <span className={styles.pillValue}>{value}</span>
     </GlassPanel>
   );
 }
@@ -90,16 +90,16 @@ function InvestmentRow({ ticker, name, pct, positive, points }: {
 }) {
   return (
     <GlassPanel className={styles.row}>
-      <div style={{ padding: '0 16px' }}>
-        <p style={{ color: 'white', fontSize: 20, fontWeight: 900, margin: 0 }}>{ticker}</p>
-        <p style={{ color: '#BDBDBD', fontSize: 14, fontWeight: 500, margin: '3px 0 0' }}>{name}</p>
+      <div className={styles.rowInfo}>
+        <p className={styles.rowTicker}>{ticker}</p>
+        <p className={styles.rowName}>{name}</p>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div className={styles.rowChart}>
         <Sparkline points={points} positive={positive} />
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
+      <div className={styles.rowPct}>
         {positive ? <ArrowUp /> : <ArrowDown />}
         <span style={{ color: positive ? '#2FBD04' : '#CF0003', fontSize: 18, fontWeight: 600, whiteSpace: 'nowrap' }}>
           {pct}
@@ -111,39 +111,29 @@ function InvestmentRow({ ticker, name, pct, positive, points }: {
 
 export default function InvestmentsPage() {
   return (
-    <div style={{ width: '100%', minHeight: '100vh', background: '#121212', padding: '28px 120px 60px', fontFamily: 'Inter, sans-serif', boxSizing: 'border-box' }}>
+    <div className={styles.container}>
 
-      <h1 style={{ color: 'white', fontSize: 48, fontWeight: 700, margin: '0 0 20px' }}>
-        Outros Investimentos
-      </h1>
+      <h1 className={styles.title}>Outros Investimentos</h1>
 
       <GlassPanel className={styles.page}>
-        <div style={{ paddingRight: 20 }}>
-          <p style={{ color: 'rgba(255,255,255,0.30)', fontSize: 24, fontWeight: 700, margin: '0 0 12px' }}>
-            Rendimento - Baixo risco
-          </p>
+        <div style={{ paddingRight: 20 }} className={styles.pageLeft}>
+          <p className={styles.sectionLabel}>Rendimento - Baixo risco</p>
           {LOW_RISK.map((a) => <AssetPill key={a.name} {...a} />)}
         </div>
 
-        <div style={{ width: '1px', background: 'rgba(255,255,255,0.20)', alignSelf: 'stretch' }} />
+        <div className={styles.pageDivider} />
 
-        <div style={{ paddingLeft: 20 }}>
-          <p style={{ color: 'rgba(255,255,255,0.30)', fontSize: 24, fontWeight: 700, margin: '0 0 12px' }}>
-            Rendimento - Alto risco
-          </p>
+        <div style={{ paddingLeft: 20 }} className={styles.pageRight}>
+          <p className={styles.sectionLabel}>Rendimento - Alto risco</p>
           {HIGH_RISK.map((a) => <AssetPill key={a.name} {...a} />)}
         </div>
       </GlassPanel>
 
       <GlassPanel className={styles.fixva}>
-        <h2 style={{ color: 'rgba(255,255,255,0.30)', fontSize: 48, fontWeight: 700, margin: '0 0 14px' }}>
-          Renda Fixas
-        </h2>
+        <h2 className={styles.fixvaTitle}>Renda Fixas</h2>
         {RENDA_FIXA.map((inv) => <InvestmentRow key={inv.ticker} {...inv} />)}
 
-        <h2 style={{ color: 'rgba(255,255,255,0.30)', fontSize: 48, fontWeight: 700, margin: '24px 0 14px' }}>
-          Renda Variavel
-        </h2>
+        <h2 className={styles.fixvaTitleSecond}>Renda Variavel</h2>
         {RENDA_VARIAVEL.map((inv) => <InvestmentRow key={inv.ticker} {...inv} />)}
       </GlassPanel>
 

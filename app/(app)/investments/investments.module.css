@@ -1,12 +1,42 @@
+.container {
+    width: 100%;
+    min-height: 100vh;
+    background: #121212;
+    padding: 28px 120px 60px;
+    font-family: Inter, sans-serif;
+    box-sizing: border-box;
+}
+
+.title {
+    color: white;
+    font-size: 48px;
+    font-weight: 700;
+    margin: 0 0 20px;
+}
+
 .pill {
     display: flex;
     align-items: center;
-    gap: 10;
+    gap: 10px;
     padding: 14px 16px;
-    height: 64;
-    border-radius: 16;
-    margin-bottom: 10;
+    height: 64px;
+    border-radius: 16px;
+    margin-bottom: 10px;
     background-color: rgb(24, 24, 24);
+}
+
+.pillName {
+    flex: 1;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.pillValue {
+    color: #00A63E;
+    font-size: 20px;
+    font-weight: 700;
+    white-space: nowrap;
 }
 
 .row {
@@ -19,16 +49,169 @@
     background-color: rgb(24, 24, 24);
 }
 
+.rowInfo {
+    padding: 0 16px;
+}
+
+.rowTicker {
+    color: white;
+    font-size: 20px;
+    font-weight: 900;
+    margin: 0;
+}
+
+.rowName {
+    color: #BDBDBD;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 3px 0 0;
+}
+
+.rowChart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rowPct {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
 .page {
-    border-radius: 36;
+    border-radius: 36px;
     padding: 20px 20px 24px;
-    margin-bottom: 20;
+    margin-bottom: 20px;
     display: grid;
     grid-template-columns: 1fr 1px 1fr;
     gap: 0;
 }
 
+.pageDivider {
+    width: 1px;
+    background: rgba(255, 255, 255, 0.20);
+    align-self: stretch;
+}
+
+.sectionLabel {
+    color: rgba(255, 255, 255, 0.30);
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 12px;
+}
+
 .fixva {
-    border-radius: 36;
+    border-radius: 36px;
     padding: 24px 20px 28px;
+}
+
+.fixvaTitle {
+    color: rgba(255, 255, 255, 0.30);
+    font-size: 48px;
+    font-weight: 700;
+    margin: 0 0 14px;
+}
+
+.fixvaTitleSecond {
+    color: rgba(255, 255, 255, 0.30);
+    font-size: 48px;
+    font-weight: 700;
+    margin: 24px 0 14px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 16px 16px 60px;
+    }
+
+    .title {
+        font-size: 28px;
+        margin: 0 0 16px;
+    }
+
+    .page {
+        grid-template-columns: 1fr;
+        border-radius: 20px;
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+
+    .pageDivider {
+        width: auto;
+        height: 1px;
+        margin: 16px 0;
+    }
+
+    .sectionLabel {
+        font-size: 16px;
+    }
+
+    .pageLeft {
+        padding-right: 0 !important;
+    }
+
+    .pageRight {
+        padding-left: 0 !important;
+    }
+
+    .pill {
+        height: auto;
+        padding: 10px 12px;
+    }
+
+    .pillName {
+        font-size: 14px;
+    }
+
+    .pillValue {
+        font-size: 14px;
+    }
+
+    .row {
+        grid-template-columns: 1fr auto;
+        grid-template-rows: auto;
+        height: auto;
+        padding: 10px 0;
+        border-radius: 14px !important;
+    }
+
+    .rowInfo {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .rowChart {
+        display: none;
+    }
+
+    .rowPct {
+        grid-column: 2;
+        grid-row: 1;
+        padding-right: 12px;
+    }
+
+    .rowTicker {
+        font-size: 15px;
+    }
+
+    .rowName {
+        font-size: 11px;
+    }
+
+    .fixva {
+        border-radius: 20px;
+        padding: 16px 16px 20px;
+    }
+
+    .fixvaTitle {
+        font-size: 24px;
+        margin: 0 0 10px;
+    }
+
+    .fixvaTitleSecond {
+        font-size: 24px;
+        margin: 16px 0 10px;
+    }
 }
