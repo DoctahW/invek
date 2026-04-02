@@ -2,11 +2,19 @@
 "use client";
 
 import { useState } from "react";
-import { PieChart, Pie, Sector, AreaChart, Area, ResponsiveContainer } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Sector,
+  AreaChart,
+  Area,
+  ResponsiveContainer,
+} from "recharts";
 import { GlassPanel } from "@/app/components/glass/GlassPanel";
 import { GlassButton } from "@/app/components/glass/GlassButton";
 import { GlassInput } from "@/app/components/glass/GlassInput";
 import { PORTFOLIO_SUMMARY } from "@/app/data/portfolio";
+import styles from "./wallet.module.css";
 
 const PORTFOLIO = [
   {
@@ -142,15 +150,24 @@ function ArrowDown() {
   );
 }
 
-function Sparkline({ points, positive }: { points: number[]; positive: boolean }) {
+function Sparkline({
+  points,
+  positive,
+}: {
+  points: number[];
+  positive: boolean;
+}) {
   const data = points.map((v, i) => ({ i, v }));
-  const color = positive ? '#2FBD04' : '#CF0003';
-  const gradId = positive ? 'sg-pos' : 'sg-neg';
+  const color = positive ? "#2FBD04" : "#CF0003";
+  const gradId = positive ? "sg-pos" : "sg-neg";
 
   return (
     <div style={{ width: 160, height: 48, flexShrink: 0 }}>
       <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={data} margin={{ top: 4, right: 4, left: 4, bottom: 4 }}>
+        <AreaChart
+          data={data}
+          margin={{ top: 4, right: 4, left: 4, bottom: 4 }}
+        >
           <defs>
             <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor={color} stopOpacity={0.3} />
@@ -208,16 +225,16 @@ function DonutChart({ alloc }: { alloc: typeof SUMMARY.alloc }) {
     color: a.color,
   }));
   return (
-    <div className="flex flex-col items-center gap-10 w-full">
-      <div className="relative w-full h-155">
+    <div className="flex flex-col items-center gap-2 w-full">
+      <div className="relative w-full h-210">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={data}
               cx="50%"
               cy="50%"
-              innerRadius={200}
-              outerRadius={265}
+              innerRadius={245}
+              outerRadius={320}
               dataKey="value"
               stroke="none"
               paddingAngle={3}
@@ -281,10 +298,10 @@ function InvestmentRow({
   return (
     <GlassPanel
       depth="deep"
-      className="rounded-xl !bg-[#121212] hover:!bg-[#1a1a1a] transition-colors"
+      className="rounded-xl p-2 !bg-[#121212] hover:!bg-[#1a1a1a] transition-colors"
     >
       <div
-        className="grid items-center gap-4 px-4 h-17"
+        className="grid items-center gap-4 px-4 h-17 w-full"
         style={{ gridTemplateColumns: "140px 1fr auto auto" }}
       >
         <div>
@@ -441,11 +458,12 @@ export default function WalletPage() {
                     <AllocBar alloc={SUMMARY.alloc} />
                   </div>
                 </div>
-                <div className="hidden md:flex flex-col gap-1">
+                <div className="hidden md:flex flex-col flex-1">
                   <p className="text-[13px] text-white/40">
                     Investido: {SUMMARY.invested}
                   </p>
-                  <div className="border-t border-white/10 pt-4 mt-1">
+                  <div className="border-t border-white/10 mt-1" />
+                  <div className="flex flex-col flex-1 justify-center">
                     <DonutChart alloc={SUMMARY.alloc} />
                   </div>
                 </div>
