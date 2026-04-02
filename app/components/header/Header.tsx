@@ -1,15 +1,14 @@
-'use client';
+"use client";
 
-import { usePathname } from 'next/navigation';
-import { Bell, User } from 'lucide-react';
-import { GlassButton } from '@/app/components/glass/GlassButton';
-import styles from './header.module.css';
+import { usePathname } from "next/navigation";
+import { Bell, User } from "lucide-react";
+import { GlassButton } from "@/app/components/glass/GlassButton";
+import styles from "./header.module.css";
 
 const NAV_ITEMS = [
-  { label: 'Home', href: '/dashboard' },
-  { label: 'Criptomoedas', href: '/investimentos?categoria=cripto' },
-  { label: 'Tesouro Direto', href: '/investimentos?categoria=tesouro' },
-  { label: 'FIIs', href: '/investimentos?categoria=fii' },
+  { label: "Dashboard", href: "/dashboard" },
+  { label: "Carteira", href: "/wallet" },
+  { label: "Investimentos", href: "/investments" },
 ];
 
 export function AppHeader() {
@@ -22,13 +21,12 @@ export function AppHeader() {
       <nav className={styles.nav}>
         {NAV_ITEMS.map((item) => {
           const isActive =
-            pathname === item.href ||
-            (item.href === '/dashboard' && pathname === '/dashboard');
+            pathname === item.href || pathname.startsWith(item.href + "/");
           return (
             <GlassButton
               key={item.label}
               href={item.href}
-              variant={isActive ? 'primary' : 'ghost'}
+              variant={isActive ? "primary" : "ghost"}
               size="md"
             >
               {item.label}
@@ -38,10 +36,20 @@ export function AppHeader() {
       </nav>
 
       <div className={styles.iconButtons}>
-        <GlassButton variant="ghost" size="sm" className={styles.iconButton} aria-label="Notificações">
+        <GlassButton
+          variant="ghost"
+          size="sm"
+          className={styles.iconButton}
+          aria-label="Notificações"
+        >
           <Bell size={20} />
         </GlassButton>
-        <GlassButton variant="ghost" size="sm" className={styles.iconButton} aria-label="Perfil">
+        <GlassButton
+          variant="ghost"
+          size="sm"
+          className={styles.iconButton}
+          aria-label="Perfil"
+        >
           <User size={20} />
         </GlassButton>
       </div>

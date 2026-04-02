@@ -1,4 +1,5 @@
 'use client';
+import { AreaChart, Area, ResponsiveContainer } from 'recharts';
 import { GlassPanel } from '@/app/components/glass/GlassPanel';
 import styles from './investments.module.css';
 
@@ -45,15 +46,32 @@ function ArrowDown() {
 }
 
 function Sparkline({ points, positive }: { points: number[]; positive: boolean }) {
-  const w = 200, h = 48, pad = 3;
-  const min = Math.min(...points), max = Math.max(...points), range = max - min || 1;
-  const xs = points.map((_, i) => pad + (i / (points.length - 1)) * (w - pad * 2));
-  const ys = points.map((p) => h - pad - ((p - min) / range) * (h - pad * 2));
-  const d = xs.map((x, i) => `${i === 0 ? 'M' : 'L'}${x.toFixed(1)},${ys[i].toFixed(1)}`).join(' ');
+  const data = points.map((v, i) => ({ i, v }));
+  const color = positive ? '#2FBD04' : '#CF0003';
+  const gradId = positive ? 'inv-sg-pos' : 'inv-sg-neg';
+
   return (
-    <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} style={{ flexShrink: 0 }}>
-      <path d={d} fill="none" stroke={positive ? '#2FBD04' : '#CF0003'} strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
-    </svg>
+    <div style={{ width: 200, height: 48, flexShrink: 0 }}>
+      <ResponsiveContainer width="100%" height="100%">
+        <AreaChart data={data} margin={{ top: 4, right: 4, left: 4, bottom: 4 }}>
+          <defs>
+            <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={color} stopOpacity={0.3} />
+              <stop offset="100%" stopColor={color} stopOpacity={0.02} />
+            </linearGradient>
+          </defs>
+          <Area
+            type="monotone"
+            dataKey="v"
+            stroke={color}
+            strokeWidth={1.8}
+            fill={`url(#${gradId})`}
+            dot={false}
+            isAnimationActive={false}
+          />
+        </AreaChart>
+      </ResponsiveContainer>
+    </div>
   );
 }
 

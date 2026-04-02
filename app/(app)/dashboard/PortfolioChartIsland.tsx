@@ -12,15 +12,8 @@ import {
 } from 'recharts';
 import styles from './dashboard.module.css';
 
-const chartData = [
-  { date: 'FEB 10', value: 1186 },
-  { date: 'FEB 11', value: 1298 },
-  { date: 'FEB 12', value: 1375 },
-  { date: 'FEB 13', value: 1310 },
-  { date: 'FEB 14', value: 1394 },
-  { date: 'FEB 15', value: 1462 },
-  { date: 'FEB 16', value: 1484 },
-];
+import { PORTFOLIO_CHART_DATA } from '@/app/data/portfolio';
+const chartData = PORTFOLIO_CHART_DATA;
 
 interface TooltipPayload {
   value?: number;
@@ -71,8 +64,8 @@ export default function PortfolioChartIsland() {
           />
 
           <YAxis
-            domain={[1100, 1500]}
-            ticks={[1100, 1200, 1300, 1400, 1500]}
+            domain={[29000, 34000]}
+            ticks={[29000, 30000, 31000, 32000, 33000, 34000]}
             tickFormatter={formatYAxis}
             tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 12, fontWeight: 500, letterSpacing: '0.6px' }}
             tickLine={false}
@@ -81,7 +74,7 @@ export default function PortfolioChartIsland() {
           />
 
           <ReferenceLine
-            y={1186}
+            y={29830}
             stroke="rgba(255,56,66,0.5)"
             strokeWidth={1}
           />
