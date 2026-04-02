@@ -38,6 +38,7 @@ export async function removeInvestment(id: string): Promise<{ success: boolean; 
   if (!id) return { success: false, error: "ID inválido." };
   await db.delete(investment).where(eq(investment.id, id));
   revalidatePath("/wallet");
+  revalidatePath("/dashboard");
   return { success: true };
 }
 
@@ -89,5 +90,6 @@ export async function addInvestment(data: {
   });
 
   revalidatePath("/wallet");
+  revalidatePath("/dashboard");
   return { success: true };
 }
