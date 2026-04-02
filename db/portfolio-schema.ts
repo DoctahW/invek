@@ -1,8 +1,8 @@
 import { relations } from "drizzle-orm";
-import { sqliteTable, text, integer, real, index } from "drizzle-orm/sqlite-core";
+import { pgTable, text, boolean, timestamp, doublePrecision, index } from "drizzle-orm/pg-core";
 import { user } from "./auth-schema";
 
-export const investment = sqliteTable(
+export const investment = pgTable(
   "investment",
   {
     id: text("id").primaryKey(),
@@ -13,19 +13,19 @@ export const investment = sqliteTable(
     name: text("name").notNull(),
     category: text("category").notNull(), // 'renda_fixa' | 'renda_variavel' | 'cripto'
     qty: text("qty"),          // ex: "15 cotas", "0,05 BTC", "R$ 5.000"
-    currentValue: real("current_value"), // valor atual em R$
-    pctNum: real("pct_num").notNull(),
-    positive: integer("positive", { mode: "boolean" }).notNull(),
+    currentValue: doublePrecision("current_value"), // valor atual em R$
+    pctNum: doublePrecision("pct_num").notNull(),
+    positive: boolean("positive").notNull(),
     points: text("points").notNull(), // JSON array de números
-    createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+    createdAt: timestamp("created_at", { mode: "date" }).notNull(),
+    updatedAt: timestamp("updated_at", { mode: "date" })
       .$onUpdate(() => new Date())
       .notNull(),
   },
   (table) => [index("investment_userId_idx").on(table.userId)],
 );
 
-export const portfolioChart = sqliteTable(
+export const portfolioChart = pgTable(
   "portfolio_chart",
   {
     id: text("id").primaryKey(),
@@ -33,8 +33,8 @@ export const portfolioChart = sqliteTable(
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
     date: text("date").notNull(),
-    value: real("value").notNull(),
-    createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
+    value: doublePrecision("value").notNull(),
+    createdAt: timestamp("created_at", { mode: "date" }).notNull(),
   },
   (table) => [index("portfolio_chart_userId_idx").on(table.userId)],
 );

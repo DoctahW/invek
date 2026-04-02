@@ -147,3 +147,4 @@ await db.insert(portfolioChart).values([
 console.log(`Seed concluído para userId: ${userId}`);
 console.log("  - 8 investimentos inseridos");
 console.log("  - 7 pontos do gráfico inseridos");
+process.exit(0);

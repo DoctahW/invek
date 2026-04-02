@@ -1,26 +1,12 @@
 {
   "version": "7",
-  "dialect": "sqlite",
+  "dialect": "postgresql",
   "entries": [
     {
       "idx": 0,
-      "version": "6",
-      "when": 1775077357837,
-      "tag": "0000_curly_pyro",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1775100832432,
-      "tag": "0001_famous_lyja",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1775101322418,
-      "tag": "0002_bizarre_spencer_smythe",
+      "version": "7",
+      "when": 1775105318410,
+      "tag": "0000_square_power_man",
       "breakpoints": true
     }
   ]
