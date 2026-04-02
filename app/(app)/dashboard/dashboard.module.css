@@ -82,6 +82,94 @@
     height: 440px;
 }
 
+/* ── Performers panels ────────────────────────────────── */
+.performerPanel {
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.performerLabel {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    color: rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.performerList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+}
+
+.performerRow {
+    display: grid;
+    grid-template-columns: 32px 1fr 120px 80px;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    position: relative;
+    backdrop-filter: blur(4px) saturate(150%);
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    border-left: 0.5px solid rgba(255, 255, 255, 0.1);
+    border-right: 0.5px solid rgba(255, 255, 255, 0.1);
+}
+
+.performerRank {
+    font-size: 18px;
+    font-weight: 900;
+    text-align: center;
+}
+
+.performerRank[data-variant='best'] {
+    color: rgba(47, 189, 4, 0.5);
+}
+
+.performerRank[data-variant='worst'] {
+    color: rgba(207, 0, 3, 0.5);
+}
+
+.performerInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.performerTicker {
+    font-size: 15px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.performerName {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.4);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.performerPct {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
 /* 4. Media queries */
 @media (max-width: 768px) {
     .page {

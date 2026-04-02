@@ -1,5 +1,5 @@
 import { PortfolioSummaryCard } from './PortfolioSummaryCard';
-import { GlassPanel } from '@/app/components/glass/GlassPanel';
+import { BestPerformersPanel, WorstPerformersPanel } from './PerformersPanel';
 import styles from './dashboard.module.css';
 
 export default function DashboardPage() {
@@ -8,8 +8,8 @@ export default function DashboardPage() {
       <PortfolioSummaryCard />
 
       <div className={styles.bottomGrid}>
-        <GlassPanel className={styles.bottomPanel} />
-        <GlassPanel className={styles.bottomPanel} />
+        <BestPerformersPanel />
+        <WorstPerformersPanel />
       </div>
     </div>
   );
