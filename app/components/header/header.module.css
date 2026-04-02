@@ -78,3 +78,9 @@
   flex-shrink: 0;
   color: rgba(255, 255, 255, 0.6) !important;
 }
+
+@media (max-width: 768px) {
+  .header {
+    display: none;
+  }
+}
