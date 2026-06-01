@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { GlassPanel } from "@/app/components/glass/GlassPanel";
 import { GlassButton } from "@/app/components/glass/GlassButton";
 import { GlassInput } from "@/app/components/glass/GlassInput";
+import { FeedbackMsg } from "@/app/components/glass/FeedbackMsg";
 import { authClient } from "@/lib/auth-client";
 
 function formatDate(iso: string) {
@@ -72,45 +73,6 @@ function IconLogOut() {
       <polyline points="16 17 21 12 16 7" />
       <line x1="21" y1="12" x2="9" y2="12" />
     </svg>
-  );
-}
-
-function IconCheck() {
-  return (
-    <svg
-      width="15"
-      height="15"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="#2FBD04"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polyline points="20 6 9 17 4 12" />
-    </svg>
-  );
-}
-
-function FeedbackMsg({
-  type,
-  msg,
-}: {
-  type: "success" | "error";
-  msg: string;
-}) {
-  const isSuccess = type === "success";
-  return (
-    <div
-      className={`flex items-center gap-2 text-[13px] px-3 py-2 rounded-lg border ${
-        isSuccess
-          ? "text-[#2FBD04] bg-[#2FBD04]/10 border-[#2FBD04]/20"
-          : "text-[#CF0003] bg-[#CF0003]/10 border-[#CF0003]/20"
-      }`}
-    >
-      {isSuccess && <IconCheck />}
-      {msg}
-    </div>
   );
 }
 
