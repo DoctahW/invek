@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { investment, portfolioChart } from "@/db/portfolio-schema";
-import { asc } from "drizzle-orm";
+import { asc, eq } from "drizzle-orm";
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -58,8 +58,11 @@ const CATEGORY_META: Record<string, { label: string; color: string }> = {
   cripto: { label: "Cripto", color: "#f59e0b" },
 };
 
-export async function getInvestments(): Promise<InvestmentRow[]> {
-  const rows = await db.select().from(investment);
+export async function getInvestments(userId: string): Promise<InvestmentRow[]> {
+  const rows = await db
+    .select()
+    .from(investment)
+    .where(eq(investment.userId, userId));
   return rows.map((r) => ({
     id: r.id,
     ticker: r.ticker,
@@ -73,10 +76,11 @@ export async function getInvestments(): Promise<InvestmentRow[]> {
   }));
 }
 
-export async function getChartData(): Promise<ChartPoint[]> {
+export async function getChartData(userId: string): Promise<ChartPoint[]> {
   const rows = await db
     .select()
     .from(portfolioChart)
+    .where(eq(portfolioChart.userId, userId))
     .orderBy(asc(portfolioChart.createdAt));
   return rows.map((r) => ({ date: r.date, value: r.value }));
 }
