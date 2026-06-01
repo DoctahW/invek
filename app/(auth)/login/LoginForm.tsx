@@ -11,9 +11,29 @@ interface LoginFormProps {
   onToggleToSignUp: () => void;
 }
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+type Fields = { email: string; password: string };
+type Errors = Partial<Record<keyof Fields, string>>;
+
+function validate(fields: Fields): Errors {
+  const errors: Errors = {};
+  if (!fields.email.trim()) {
+    errors.email = "Informe seu e-mail.";
+  } else if (!EMAIL_RE.test(fields.email.trim())) {
+    errors.email = "Digite um e-mail válido (ex: nome@email.com).";
+  }
+  if (!fields.password) {
+    errors.password = "Informe sua senha.";
+  }
+  return errors;
+}
+
 export function LoginForm({ onToggleToSignUp }: LoginFormProps) {
   const router = useRouter();
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState<Fields>({ email: "", password: "" });
+  const [errors, setErrors] = useState<Errors>({});
+  const [touched, setTouched] = useState<Partial<Record<keyof Fields, boolean>>>({});
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -22,27 +42,51 @@ export function LoginForm({ onToggleToSignUp }: LoginFormProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const next = { ...formData, [name]: value };
+    setFormData(next);
+    if (touched[name as keyof Fields]) {
+      setErrors((prev) => ({ ...prev, [name]: validate(next)[name as keyof Fields] }));
+    }
+    setError("");
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const name = e.target.name as keyof Fields;
+    setTouched((t) => ({ ...t, [name]: true }));
+    setErrors((prev) => ({ ...prev, [name]: validate(formData)[name] }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const validationErrors = validate(formData);
+    setTouched({ email: true, password: true });
+    setErrors(validationErrors);
+    if (Object.values(validationErrors).some(Boolean)) return;
+
     setLoading(true);
     setError("");
 
-    const { error } = await authClient.signIn.email({
-      email: formData.email,
-      password: formData.password,
-    });
+    try {
+      const { error } = await authClient.signIn.email({
+        email: formData.email,
+        password: formData.password,
+      });
 
-    if (error) {
-      setError(error.message || "Erro ao fazer login");
-    } else {
-      router.push("/dashboard");
-      router.refresh();
+      if (error) {
+        const map: Record<string, string> = {
+          "Invalid email or password": "E-mail ou senha incorretos.",
+          "Invalid password": "E-mail ou senha incorretos.",
+        };
+        setError(map[error.message ?? ""] ?? error.message ?? "Não foi possível entrar. Tente novamente.");
+        setLoading(false);
+      } else {
+        router.push("/dashboard");
+        router.refresh();
+      }
+    } catch {
+      setError("Falha de conexão. Verifique sua internet e tente novamente.");
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
@@ -58,7 +102,7 @@ export function LoginForm({ onToggleToSignUp }: LoginFormProps) {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6" noValidate>
         <GlassInput
           id="email"
           name="email"
@@ -66,14 +110,17 @@ export function LoginForm({ onToggleToSignUp }: LoginFormProps) {
           label="Email"
           placeholder="seu@email.com"
           icon={<Mail size={20} />}
+          autoComplete="email"
           value={formData.email}
           onChange={handleChange}
+          onBlur={handleBlur}
+          error={touched.email ? errors.email : undefined}
           required
         />
 
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-[14px] font-medium text-[#e0e0e0]">Senha</span>
+            <span id="senha-label" className="text-[14px] font-medium text-[#e0e0e0]">Senha</span>
             <button type="button" className="text-[14px] text-white hover:opacity-80 transition-opacity">
               Esqueceu a senha?
             </button>
@@ -84,20 +131,29 @@ export function LoginForm({ onToggleToSignUp }: LoginFormProps) {
             type={showPassword ? "text" : "password"}
             placeholder="••••••••"
             icon={<Lock size={20} />}
+            aria-labelledby="senha-label"
+            autoComplete="current-password"
             suffix={
-              <button type="button" onClick={() => setShowPassword(!showPassword)}>
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                aria-pressed={showPassword}
+              >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             }
             value={formData.password}
             onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.password ? errors.password : undefined}
             required
           />
         </div>
 
         {error && (
-          <div className="bg-red-500/10 border border-red-500/50 rounded-[16px] p-3">
-            <p className="text-red-400 text-[14px] text-center">{error}</p>
+          <div className="bg-red-500/10 border border-red-500/50 rounded-[16px] p-3" role="alert">
+            <p className="text-red-300 text-[14px] text-center">{error}</p>
           </div>
         )}
 
