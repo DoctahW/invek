@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import styles from './input.module.css';
 
 interface GlassInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -16,10 +17,14 @@ export function GlassInput({
   className,
   ...rest
 }: GlassInputProps) {
+  const generatedId = useId();
+  const inputId = id ?? generatedId;
+  const errorId = `${inputId}-error`;
+
   return (
     <div className={`${styles.wrapper} ${className ?? ''}`}>
       {label && (
-        <label htmlFor={id} className={styles.label}>
+        <label htmlFor={inputId} className={styles.label}>
           {label}
         </label>
       )}
@@ -28,12 +33,22 @@ export function GlassInput({
         <div className={styles.border} aria-hidden="true" />
         <div className={styles.row}>
           {icon && <span className={styles.icon}>{icon}</span>}
-          <input id={id} className={styles.input} {...rest} />
+          <input
+            id={inputId}
+            className={styles.input}
+            aria-invalid={error ? true : undefined}
+            aria-describedby={error ? errorId : undefined}
+            {...rest}
+          />
           {suffix && <span className={styles.suffix}>{suffix}</span>}
         </div>
       </div>
 
-      {error && <p className={styles.errorMsg}>{error}</p>}
+      {error && (
+        <p id={errorId} className={styles.errorMsg} role="alert">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

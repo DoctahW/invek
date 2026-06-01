@@ -26,7 +26,7 @@ export function MobileNav() {
             key={label}
             href={href}
             className={`${styles.item} ${isActive ? styles.itemActive : ""}`}
-            aria-label={label}
+            aria-current={isActive ? "page" : undefined}
           >
             <span className={styles.iconWrap}>
               {isActive && <span className={styles.glow} aria-hidden="true" />}
