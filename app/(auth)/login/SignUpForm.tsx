@@ -63,6 +63,23 @@ export function SignUpForm({ onToggleToLogin }: SignUpFormProps) {
     setErrors((prev) => ({ ...prev, [name]: validate(formData)[name] }));
   };
 
+  const getErrorMessage = (code?: string, fallback?: string) => {
+    switch (code) {
+      case "USER_ALREADY_EXISTS":
+        return "Este email já está cadastrado";
+      case "INVALID_EMAIL":
+        return "Email inválido";
+      case "PASSWORD_TOO_SHORT":
+        return "A senha deve ter pelo menos 8 caracteres";
+      case "PASSWORD_TOO_LONG":
+        return "A senha é muito longa";
+      case "FAILED_TO_CREATE_USER":
+        return "Erro ao criar conta. Tente novamente";
+      default:
+        return fallback || "Erro ao criar conta. Tente novamente";
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const validationErrors = validate(formData);
@@ -81,11 +98,7 @@ export function SignUpForm({ onToggleToLogin }: SignUpFormProps) {
       });
 
       if (error) {
-        const map: Record<string, string> = {
-          "User already exists": "Já existe uma conta com esse e-mail.",
-          "Password is too short": "A senha deve ter no mínimo 8 caracteres.",
-        };
-        setError(map[error.message ?? ""] ?? error.message ?? "Não foi possível criar a conta. Tente novamente.");
+        setError(getErrorMessage(error.code, error.message));
         setLoading(false);
       } else {
         setSuccess(true);

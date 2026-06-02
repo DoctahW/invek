@@ -42,6 +42,7 @@ export async function removeInvestment(id: string): Promise<{ success: boolean; 
     .delete(investment)
     .where(and(eq(investment.id, id), eq(investment.userId, sessionUser.id)));
   revalidatePath("/wallet");
+  revalidatePath("/dashboard");
   return { success: true };
 }
 
@@ -92,5 +93,6 @@ export async function addInvestment(data: {
   });
 
   revalidatePath("/wallet");
+  revalidatePath("/dashboard");
   return { success: true };
 }
