@@ -116,6 +116,13 @@
     color: rgba(255, 255, 255, 0.8);
 }
 
+.suffix :focus-visible {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: 3px;
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
 /* 7. Mensagem de erro */
 .errorMsg {
     font-size: 13px;

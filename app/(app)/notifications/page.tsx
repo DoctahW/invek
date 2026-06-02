@@ -13,6 +13,7 @@ function BellOffIcon() {
       strokeWidth="1.4"
       strokeLinecap="round"
       strokeLinejoin="round"
+      aria-hidden="true"
     >
       <path d="M13.73 21a2 2 0 0 1-3.46 0" />
       <path d="M18.63 13A17.9 17.9 0 0 1 18 8" />
@@ -32,13 +33,13 @@ export default function NotificationsPage() {
           <h1 className="text-[28px] font-bold mb-8">Alertas</h1>
 
           <div className="flex flex-col items-center gap-4 pt-16 text-center">
-            <span className="text-white/20">
+            <span className="text-white/40">
               <BellOffIcon />
             </span>
-            <p className="text-[16px] font-medium text-white/40">
+            <p className="text-[16px] font-medium text-white/75">
               Nenhum alerta por enquanto
             </p>
-            <p className="text-[13px] text-white/25 max-w-[260px]">
+            <p className="text-[13px] text-white/60 max-w-[260px]">
               Os alertas vão aparecer aqui em breve.
             </p>
           </div>

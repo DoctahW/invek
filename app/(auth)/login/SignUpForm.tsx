@@ -1,25 +1,66 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, Lock } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { GlassInput } from "@/app/components/glass/GlassInput";
 import { GlassButton } from "@/app/components/glass/GlassButton";
+import { FeedbackMsg } from "@/app/components/glass/FeedbackMsg";
 import { authClient } from "@/lib/auth-client";
 
 interface SignUpFormProps {
   onToggleToLogin: () => void;
 }
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+type Fields = { name: string; email: string; password: string };
+type Errors = Partial<Record<keyof Fields, string>>;
+
+function validate(fields: Fields): Errors {
+  const errors: Errors = {};
+  if (!fields.name.trim()) {
+    errors.name = "Informe seu nome.";
+  } else if (fields.name.trim().length < 2) {
+    errors.name = "Nome muito curto.";
+  }
+  if (!fields.email.trim()) {
+    errors.email = "Informe seu e-mail.";
+  } else if (!EMAIL_RE.test(fields.email.trim())) {
+    errors.email = "Digite um e-mail válido (ex: nome@email.com).";
+  }
+  if (!fields.password) {
+    errors.password = "Crie uma senha.";
+  } else if (fields.password.length < 8) {
+    errors.password = "A senha deve ter no mínimo 8 caracteres.";
+  }
+  return errors;
+}
+
 export function SignUpForm({ onToggleToLogin }: SignUpFormProps) {
-  const [formData, setFormData] = useState({ name: "", email: "", password: "" });
+  const [formData, setFormData] = useState<Fields>({ name: "", email: "", password: "" });
+  const [errors, setErrors] = useState<Errors>({});
+  const [touched, setTouched] = useState<Partial<Record<keyof Fields, boolean>>>({});
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
 
   const isFormEmpty = !formData.name || !formData.email || !formData.password;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const next = { ...formData, [name]: value };
+    setFormData(next);
+    if (touched[name as keyof Fields]) {
+      setErrors((prev) => ({ ...prev, [name]: validate(next)[name as keyof Fields] }));
+    }
+    setError("");
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const name = e.target.name as keyof Fields;
+    setTouched((t) => ({ ...t, [name]: true }));
+    setErrors((prev) => ({ ...prev, [name]: validate(formData)[name] }));
   };
 
   const getErrorMessage = (code?: string, fallback?: string) => {
@@ -41,29 +82,36 @@ export function SignUpForm({ onToggleToLogin }: SignUpFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-
-    if (formData.password.length < 8) {
-      setError("A senha deve ter pelo menos 8 caracteres");
-      return;
-    }
+    const validationErrors = validate(formData);
+    setTouched({ name: true, email: true, password: true });
+    setErrors(validationErrors);
+    if (Object.values(validationErrors).some(Boolean)) return;
 
     setLoading(true);
+    setError("");
 
-    const { error } = await authClient.signUp.email({
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-    });
+    try {
+      const { error } = await authClient.signUp.email({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
 
-    if (error) {
-      setError(getErrorMessage(error.code, error.message));
-    } else {
-      onToggleToLogin();
+      if (error) {
+        setError(getErrorMessage(error.code, error.message));
+        setLoading(false);
+      } else {
+        setSuccess(true);
+        setLoading(false);
+        setTimeout(() => onToggleToLogin(), 1600);
+      }
+    } catch {
+      setError("Falha de conexão. Verifique sua internet e tente novamente.");
+      setLoading(false);
     }
-
-    setLoading(false);
   };
+
+  const inputType = showPassword ? "text" : "password";
 
   return (
     <div className="w-full max-w-[480px]">
@@ -78,15 +126,18 @@ export function SignUpForm({ onToggleToLogin }: SignUpFormProps) {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6" noValidate>
         <GlassInput
           id="name"
           name="name"
           type="text"
           label="Nome completo"
           placeholder="Seu nome"
+          autoComplete="name"
           value={formData.name}
           onChange={handleChange}
+          onBlur={handleBlur}
+          error={touched.name ? errors.name : undefined}
           required
         />
 
@@ -97,27 +148,47 @@ export function SignUpForm({ onToggleToLogin }: SignUpFormProps) {
           label="Email"
           placeholder="seu@email.com"
           icon={<Mail size={20} />}
+          autoComplete="email"
           value={formData.email}
           onChange={handleChange}
+          onBlur={handleBlur}
+          error={touched.email ? errors.email : undefined}
           required
         />
 
         <GlassInput
           id="signup-password"
           name="password"
-          type="password"
+          type={inputType}
           label="Senha"
-          placeholder="••••••••"
+          placeholder="Mínimo 8 caracteres"
           icon={<Lock size={20} />}
+          autoComplete="new-password"
+          suffix={
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+              aria-pressed={showPassword}
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          }
           value={formData.password}
           onChange={handleChange}
+          onBlur={handleBlur}
+          error={touched.password ? errors.password : undefined}
           required
         />
 
         {error && (
-          <div className="bg-red-500/10 border border-red-500/50 rounded-[16px] p-3">
-            <p className="text-red-400 text-[14px] text-center">{error}</p>
+          <div className="bg-red-500/10 border border-red-500/50 rounded-[16px] p-3" role="alert">
+            <p className="text-red-300 text-[14px] text-center">{error}</p>
           </div>
+        )}
+
+        {success && (
+          <FeedbackMsg type="success" msg="Conta criada com sucesso! Redirecionando para o login…" />
         )}
 
         <GlassButton
@@ -125,7 +196,7 @@ export function SignUpForm({ onToggleToLogin }: SignUpFormProps) {
           variant="primary"
           size="md"
           loading={loading}
-          disabled={isFormEmpty}
+          disabled={isFormEmpty || success}
           className="w-full"
         >
           {loading ? "Criando conta..." : "Criar conta"}

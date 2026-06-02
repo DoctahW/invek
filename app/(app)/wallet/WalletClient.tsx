@@ -12,6 +12,8 @@ import {
 import { GlassPanel } from "@/app/components/glass/GlassPanel";
 import { GlassButton } from "@/app/components/glass/GlassButton";
 import { GlassInput } from "@/app/components/glass/GlassInput";
+import { FeedbackMsg } from "@/app/components/glass/FeedbackMsg";
+import { useDialog } from "@/app/components/glass/useDialog";
 import type { InvestmentRow, PortfolioSummary } from "@/app/data/portfolio-db";
 import { addInvestment, removeInvestment } from "./actions";
 import styles from "./wallet.module.css";
@@ -34,12 +36,14 @@ function ArrowUp() {
       viewBox="0 0 17 17"
       fill="none"
       style={{ flexShrink: 0 }}
+      role="img"
+      aria-label="alta"
     >
       <path
         fillRule="evenodd"
         clipRule="evenodd"
         d="M15.7844 0C16.455 8.2506e-06 16.9982 0.544244 16.9982 1.21484V10.9287C16.998 11.5991 16.4646 12.1426 15.7941 12.1426C15.1236 12.1426 14.5707 11.5991 14.5705 10.9287V4.14648L2.07244 16.6445C1.59837 17.1184 0.829804 17.1183 0.355642 16.6445C-0.118547 16.1703 -0.118547 15.4009 0.355642 14.9268L12.8537 2.42871H6.07049C5.40001 2.42868 4.85679 1.88528 4.85662 1.21484C4.85663 0.544257 5.3999 1.27214e-05 6.07049 0H15.7844Z"
-        fill="#2FBD04"
+        fill="#3DD80E"
       />
     </svg>
   );
@@ -53,12 +57,14 @@ function ArrowDown() {
       viewBox="0 0 17 17"
       fill="none"
       style={{ flexShrink: 0 }}
+      role="img"
+      aria-label="baixa"
     >
       <path
         fillRule="evenodd"
         clipRule="evenodd"
         d="M17 15.7853C17 16.4559 16.4568 17.0002 15.7861 17.0002H6.07129C5.40069 17.0001 4.85741 16.4657 4.85742 15.7951C4.85747 15.1246 5.40071 14.5715 6.07129 14.5715L12.8555 14.5715L0.355469 2.07245C-0.11833 1.59828 -0.118439 0.829751 0.355469 0.355653C0.829695 -0.118551 1.59902 -0.118551 2.07324 0.355653L14.5713 12.8537V6.07147C14.5713 5.40085 15.1155 4.85662 15.7861 4.85663C16.4568 4.85665 17 5.40086 17 6.07147V15.7853Z"
-        fill="#CF0003"
+        fill="#FF5A5F"
       />
     </svg>
   );
@@ -80,7 +86,7 @@ function Sparkline({
   const gradId = positive ? "sg-pos" : "sg-neg";
 
   return (
-    <div style={{ width, height, flexShrink: 0 }}>
+    <div style={{ width, height, flexShrink: 0 }} aria-hidden="true">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={data}
@@ -125,8 +131,8 @@ function AllocBar({ alloc }: { alloc: PortfolioSummary["alloc"] }) {
               className="w-2 h-2 rounded-full shrink-0"
               style={{ background: a.color }}
             />
-            <span className="text-xs text-white/50">{a.label}</span>
-            <span className="text-xs text-white/70 font-semibold">
+            <span className="text-xs text-white/65">{a.label}</span>
+            <span className="text-xs text-white/85 font-semibold">
               {a.pct}%
             </span>
           </div>
@@ -164,13 +170,13 @@ function DonutChart({ alloc, summary }: { alloc: PortfolioSummary["alloc"]; summ
         </ResponsiveContainer>
         {/* Label central */}
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-          <span className="text-[14px] text-white/40 uppercase tracking-wider">
+          <span className="text-[14px] text-white/65 uppercase tracking-wider">
             retorno
           </span>
-          <span className="text-[42px] font-black text-[#2FBD04] leading-tight">
+          <span className="text-[42px] font-black text-[#3DD80E] leading-tight">
             {summary.pct}
           </span>
-          <span className="text-[15px] text-[#2FBD04]/60">
+          <span className="text-[15px] text-[#3DD80E]/80">
             {summary.return}
           </span>
         </div>
@@ -184,9 +190,9 @@ function DonutChart({ alloc, summary }: { alloc: PortfolioSummary["alloc"]; summ
                 className="w-2.5 h-2.5 rounded-full shrink-0"
                 style={{ background: a.color }}
               />
-              <span className="text-sm text-white/50">{a.label}</span>
+              <span className="text-sm text-white/65">{a.label}</span>
             </div>
-            <span className="text-sm text-white/70 font-semibold">
+            <span className="text-sm text-white/85 font-semibold">
               {a.pct}%
             </span>
           </div>
@@ -242,13 +248,13 @@ function InvestmentRow({
         )}
         <div className="flex-1 min-w-0">
           <p className="font-bold text-[15px] text-white">{ticker}</p>
-          <p className="text-[11px] text-white/50 truncate">{name}</p>
+          <p className="text-[11px] text-white/65 truncate">{name}</p>
         </div>
         <div className="text-right shrink-0">
           <p className="text-[13px] font-semibold text-white">{value}</p>
           <div className="flex items-center gap-0.5 justify-end">
             {positive ? <ArrowUp /> : <ArrowDown />}
-            <span className={`text-[12px] font-semibold whitespace-nowrap ${positive ? "text-[#2FBD04]" : "text-[#CF0003]"}`}>
+            <span className={`text-[12px] font-semibold whitespace-nowrap ${positive ? "text-[#3DD80E]" : "text-[#FF5A5F]"}`}>
               {pct}
             </span>
           </div>
@@ -267,18 +273,18 @@ function InvestmentRow({
         )}
         <div>
           <p className="font-bold text-[17px] text-white">{ticker}</p>
-          <p className="text-[12px] text-white/50 truncate">{name}</p>
+          <p className="text-[12px] text-white/65 truncate">{name}</p>
         </div>
         <div className="flex justify-center">
           <Sparkline points={points} positive={positive} />
         </div>
         <div className="text-right">
           <p className="text-[15px] font-semibold text-white">{value}</p>
-          <p className="text-[12px] text-white/40">{qty ?? "—"}</p>
+          <p className="text-[12px] text-white/60">{qty ?? "—"}</p>
         </div>
         <div className="flex items-center gap-1 justify-end w-20">
           {positive ? <ArrowUp /> : <ArrowDown />}
-          <span className={`text-[15px] font-semibold whitespace-nowrap ${positive ? "text-[#2FBD04]" : "text-[#CF0003]"}`}>
+          <span className={`text-[15px] font-semibold whitespace-nowrap ${positive ? "text-[#3DD80E]" : "text-[#FF5A5F]"}`}>
             {pct}
           </span>
         </div>
@@ -357,7 +363,14 @@ function validateFields(fields: FormFields, tipo: string): FormErrors {
   return errors;
 }
 
-function AddModal({ onClose }: { onClose: () => void }) {
+function AddModal({
+  onClose,
+  onSuccess,
+}: {
+  onClose: () => void;
+  onSuccess: (name: string) => void;
+}) {
+  const dialogRef = useDialog(onClose);
   const [tipo, setTipo] = useState<string>("Ação");
   const [fields, setFields] = useState<FormFields>({
     ticker: "",
@@ -418,6 +431,7 @@ function AddModal({ onClose }: { onClose: () => void }) {
     setSubmitting(false);
 
     if (result.success) {
+      onSuccess(fields.name.trim());
       onClose();
     } else {
       setServerError(result.error);
@@ -429,16 +443,26 @@ function AddModal({ onClose }: { onClose: () => void }) {
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
       onClick={onClose}
     >
-      <div onClick={(e) => e.stopPropagation()}>
+      <div
+        ref={dialogRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="add-modal-title"
+        className="outline-none"
+        onClick={(e) => e.stopPropagation()}
+      >
         <GlassPanel className="w-full max-w-120 mx-4 rounded-2xl overflow-hidden">
           <div className="p-6 bg-[#0d0d0d] border border-white/10 flex flex-col gap-5">
             <div className="flex items-center justify-between">
-              <h2 className="text-[22px] font-bold text-white">
+              <h2 id="add-modal-title" className="text-[22px] font-bold text-white">
                 Adicionar Investimento
               </h2>
               <button
+                type="button"
                 onClick={onClose}
-                className="text-white/40 hover:text-white/80 transition-colors text-xl leading-none"
+                aria-label="Fechar"
+                className="text-white/60 hover:text-white/90 transition-colors text-xl leading-none"
                 disabled={submitting}
               >
                 ✕
@@ -468,20 +492,22 @@ function AddModal({ onClose }: { onClose: () => void }) {
               />
             </div>
 
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[13px] font-medium text-white/60 uppercase tracking-wider">
+            <div className="flex flex-col gap-1.5" role="group" aria-labelledby="tipo-label">
+              <span id="tipo-label" className="text-[13px] font-medium text-white/70 uppercase tracking-wider">
                 Tipo
-              </label>
+              </span>
               <div className="flex gap-2 flex-wrap">
                 {TIPOS.map((t) => (
                   <button
                     key={t}
+                    type="button"
                     onClick={() => handleTipoChange(t)}
                     disabled={submitting}
+                    aria-pressed={tipo === t}
                     className={`px-4 py-1.5 rounded-xl text-sm font-semibold border transition-all ${
                       tipo === t
                         ? "bg-white/15 border-white/30 text-white"
-                        : "bg-white/5 border-white/10 text-white/50 hover:bg-white/10"
+                        : "bg-white/5 border-white/10 text-white/70 hover:bg-white/10"
                     }`}
                   >
                     {t}
@@ -528,11 +554,7 @@ function AddModal({ onClose }: { onClose: () => void }) {
               </div>
             )}
 
-            {serverError && (
-              <p className="text-[13px] text-[#CF0003] bg-[#CF0003]/10 border border-[#CF0003]/20 rounded-lg px-3 py-2">
-                {serverError}
-              </p>
-            )}
+            {serverError && <FeedbackMsg type="error" msg={serverError} />}
 
             <div className="flex gap-3 pt-1">
               <GlassButton
@@ -588,8 +610,14 @@ export default function WalletClient({
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [showConfirm, setShowConfirm] = useState(false);
   const [removing, setRemoving] = useState(false);
+  const [feedback, setFeedback] = useState<{
+    type: "success" | "error";
+    msg: string;
+  } | null>(null);
 
+  const confirmRef = useDialog(() => !removing && setShowConfirm(false));
   const groups = groupByCategory(investments);
+  const isEmpty = investments.length === 0;
 
   function toggleSelect(id: string) {
     setSelectedIds((prev) => {
@@ -605,11 +633,19 @@ export default function WalletClient({
   }
 
   async function handleConfirmRemove() {
+    const count = selectedIds.size;
     setRemoving(true);
     await Promise.all([...selectedIds].map((id) => removeInvestment(id)));
     setRemoving(false);
     setShowConfirm(false);
     exitSelectMode();
+    setFeedback({
+      type: "success",
+      msg:
+        count === 1
+          ? "Investimento removido com sucesso."
+          : `${count} investimentos removidos com sucesso.`,
+    });
   }
 
   const selectedItems = investments.filter((i) => selectedIds.has(i.id));
@@ -646,6 +682,11 @@ export default function WalletClient({
             )}
           </div>
         </div>
+        {feedback && (
+          <div className="max-w-175 mx-auto md:max-w-none mb-5">
+            <FeedbackMsg type={feedback.type} msg={feedback.msg} />
+          </div>
+        )}
         <div
           className="flex flex-col gap-6 max-w-175 mx-auto md:max-w-none md:grid md:items-stretch"
           style={{ gridTemplateColumns: "minmax(0,2fr) minmax(0,3fr)" }}
@@ -654,7 +695,7 @@ export default function WalletClient({
             <GlassPanel className="w-full rounded-[10px] overflow-hidden md:h-full">
               <div className="w-full h-full p-6 bg-[#0B0B0B] border border-white/10 flex flex-col gap-5">
                 <div>
-                  <p className="text-[13px] text-white/40 uppercase tracking-wider mb-1">
+                  <p className="text-[13px] text-white/65 uppercase tracking-wider mb-1">
                     Patrimônio total
                   </p>
                   <p className="text-[38px] font-black text-white leading-none">
@@ -664,14 +705,14 @@ export default function WalletClient({
                 <div className="md:hidden flex flex-col gap-4">
                   <div className="flex items-center gap-1.5">
                     <ArrowUp />
-                    <span className="text-[22px] font-bold text-[#2FBD04]">
+                    <span className="text-[22px] font-bold text-[#3DD80E]">
                       {summary.pct}
                     </span>
-                    <span className="text-[13px] text-[#2FBD04]/70 ml-1">
+                    <span className="text-[13px] text-[#3DD80E]/80 ml-1">
                       {summary.return}
                     </span>
                   </div>
-                  <p className="text-[13px] text-white/40 -mt-2">
+                  <p className="text-[13px] text-white/65 -mt-2">
                     Investido: {summary.invested}
                   </p>
                   <div className="border-t border-white/10 pt-4">
@@ -679,7 +720,7 @@ export default function WalletClient({
                   </div>
                 </div>
                 <div className="hidden md:flex flex-col flex-1">
-                  <p className="text-[13px] text-white/40">
+                  <p className="text-[13px] text-white/65">
                     Investido: {summary.invested}
                   </p>
                   <div className="border-t border-white/10 mt-1" />
@@ -691,32 +732,63 @@ export default function WalletClient({
             </GlassPanel>
           </div>
           <div className="flex flex-col gap-6">
-            {groups.map((group) => (
-              <GlassPanel
-                key={group.group}
-                className="w-full rounded-[10px] overflow-hidden"
-              >
-                <div className="w-full p-6 bg-[#0B0B0B] border border-white/10 flex flex-col gap-3">
-                  <h3 className="text-[22px] text-[#545454] font-semibold mb-1">
-                    {group.group}
-                  </h3>
-                  {group.items.map((item) => (
-                    <InvestmentRow
-                      key={item.id}
-                      item={item}
-                      selectMode={selectMode}
-                      selected={selectedIds.has(item.id)}
-                      onToggle={toggleSelect}
-                    />
-                  ))}
+            {isEmpty ? (
+              <GlassPanel className="w-full rounded-[10px] overflow-hidden">
+                <div className="w-full p-10 bg-[#0B0B0B] border border-white/10 flex flex-col items-center text-center gap-4">
+                  <p className="text-[16px] font-semibold text-white/80">
+                    Sua carteira está vazia
+                  </p>
+                  <p className="text-[13px] text-white/60 max-w-[320px]">
+                    Adicione seu primeiro investimento para acompanhar o
+                    desempenho e a alocação do seu patrimônio.
+                  </p>
+                  <GlassButton
+                    variant="primary"
+                    size="md"
+                    onClick={() => setShowAddModal(true)}
+                  >
+                    + Adicionar investimento
+                  </GlassButton>
                 </div>
               </GlassPanel>
-            ))}
+            ) : (
+              groups.map((group) => (
+                <GlassPanel
+                  key={group.group}
+                  className="w-full rounded-[10px] overflow-hidden"
+                >
+                  <div className="w-full p-6 bg-[#0B0B0B] border border-white/10 flex flex-col gap-3">
+                    <h2 className="text-[22px] text-white/75 font-semibold mb-1">
+                      {group.group}
+                    </h2>
+                    {group.items.map((item) => (
+                      <InvestmentRow
+                        key={item.id}
+                        item={item}
+                        selectMode={selectMode}
+                        selected={selectedIds.has(item.id)}
+                        onToggle={toggleSelect}
+                      />
+                    ))}
+                  </div>
+                </GlassPanel>
+              ))
+            )}
           </div>
         </div>
       </div>
 
-      {showAddModal && <AddModal onClose={() => setShowAddModal(false)} />}
+      {showAddModal && (
+        <AddModal
+          onClose={() => setShowAddModal(false)}
+          onSuccess={(name) =>
+            setFeedback({
+              type: "success",
+              msg: `${name} adicionado à carteira com sucesso.`,
+            })
+          }
+        />
+      )}
 
       {showConfirm && (
         <div
@@ -724,21 +796,27 @@ export default function WalletClient({
           onClick={() => !removing && setShowConfirm(false)}
         >
           <div
-            className="bg-[#0d0d0d] border border-white/10 rounded-2xl p-6 flex flex-col gap-4 w-full max-w-sm mx-4"
+            ref={confirmRef}
+            tabIndex={-1}
+            role="alertdialog"
+            aria-modal="true"
+            aria-labelledby="confirm-remove-title"
+            aria-describedby="confirm-remove-desc"
+            className="bg-[#0d0d0d] border border-white/10 rounded-2xl p-6 flex flex-col gap-4 w-full max-w-sm mx-4 outline-none"
             onClick={(e) => e.stopPropagation()}
           >
             <div>
-              <h3 className="text-[18px] font-bold text-white mb-1">
+              <h2 id="confirm-remove-title" className="text-[18px] font-bold text-white mb-1">
                 Remover {selectedItems.length === 1 ? "investimento" : `${selectedItems.length} investimentos`}
-              </h3>
-              <p className="text-[14px] text-white/50 mb-3">
+              </h2>
+              <p id="confirm-remove-desc" className="text-[14px] text-white/65 mb-3">
                 Esta ação não pode ser desfeita.
               </p>
               <div className="flex flex-col gap-1.5">
                 {selectedItems.map((item) => (
                   <div key={item.id} className="flex items-center gap-2 text-[14px]">
                     <span className="font-semibold text-white">{item.ticker}</span>
-                    <span className="text-white/40">{item.name}</span>
+                    <span className="text-white/60">{item.name}</span>
                   </div>
                 ))}
               </div>

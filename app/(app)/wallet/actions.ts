@@ -1,10 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { investment } from "@/db/portfolio-schema";
-import { user } from "@/db/auth-schema";
+import { requireSession } from "@/lib/session";
 
 const TIPO_TO_CATEGORY: Record<string, string> = {
   Ação: "renda_variavel",
@@ -36,7 +36,11 @@ function buildQtyString(tipo: string, quantidade: number, ticker: string): strin
 
 export async function removeInvestment(id: string): Promise<{ success: boolean; error?: string }> {
   if (!id) return { success: false, error: "ID inválido." };
-  await db.delete(investment).where(eq(investment.id, id));
+  const { user: sessionUser } = await requireSession();
+  // Só remove se o investimento pertencer ao usuário logado.
+  await db
+    .delete(investment)
+    .where(and(eq(investment.id, id), eq(investment.userId, sessionUser.id)));
   revalidatePath("/wallet");
   revalidatePath("/dashboard");
   return { success: true };
@@ -62,8 +66,7 @@ export async function addInvestment(data: {
   if (!Number.isFinite(data.preco) || data.preco <= 0)
     return { success: false, error: "Preço deve ser maior que zero." };
 
-  const [existingUser] = await db.select({ id: user.id }).from(user).limit(1);
-  if (!existingUser) return { success: false, error: "Usuário não encontrado." };
+  const { user: sessionUser } = await requireSession();
 
   const category = TIPO_TO_CATEGORY[data.tipo];
   // Para Renda Fixa, quantidade = valor investido (preco = 1)
@@ -76,7 +79,7 @@ export async function addInvestment(data: {
 
   await db.insert(investment).values({
     id: crypto.randomUUID(),
-    userId: existingUser.id,
+    userId: sessionUser.id,
     ticker: data.ticker.trim().toUpperCase(),
     name: data.name.trim(),
     category,

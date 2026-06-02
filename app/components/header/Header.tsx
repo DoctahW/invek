@@ -23,7 +23,7 @@ export function AppHeader() {
       <header className={styles.header}>
         <span className="font-black text-[48px] text-white shrink-0">INVEK</span>
 
-        <nav className={styles.nav}>
+        <nav className={styles.nav} aria-label="Navegação principal">
           {NAV_ITEMS.map((item) => {
             const isActive =
               pathname === item.href || pathname.startsWith(item.href + "/");
@@ -33,6 +33,7 @@ export function AppHeader() {
                 href={item.href}
                 variant={isActive ? "primary" : "ghost"}
                 size="md"
+                aria-current={isActive ? "page" : undefined}
               >
                 {item.label}
               </GlassButton>
@@ -47,6 +48,7 @@ export function AppHeader() {
             size="sm"
             className={styles.iconButton}
             aria-label="Notificações"
+            aria-current={mounted && pathname === "/notifications" ? "page" : undefined}
           >
             <Bell size={20} color={mounted && pathname === "/notifications" ? "#000" : "currentColor"} />
           </GlassButton>
@@ -56,6 +58,7 @@ export function AppHeader() {
             size="sm"
             className={styles.iconButton}
             aria-label="Perfil"
+            aria-current={mounted && pathname === "/profile" ? "page" : undefined}
           >
             <User size={20} color={mounted && pathname === "/profile" ? "#000" : "currentColor"} />
           </GlassButton>

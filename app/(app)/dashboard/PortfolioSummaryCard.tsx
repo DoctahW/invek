@@ -20,11 +20,11 @@ export function PortfolioSummaryCard({
   return (
     <GlassPanel className={styles.heroCard}>
       <div className="flex flex-col gap-2">
-        <p className={styles.heroLabel}>Patrimônio</p>
+        <h2 className={styles.heroLabel}>Patrimônio</h2>
         <p className={styles.heroValue}>{summary.total}</p>
-        <p style={{ fontSize: 14, color: '#2FBD04', fontWeight: 600, marginTop: -4 }}>
+        <p style={{ fontSize: 14, color: '#3DD80E', fontWeight: 600, marginTop: -4 }}>
           {summary.pct} &nbsp;
-          <span style={{ color: 'rgba(255,255,255,0.35)', fontWeight: 400 }}>
+          <span style={{ color: 'rgba(255,255,255,0.6)', fontWeight: 400 }}>
             ({summary.return})
           </span>
         </p>
